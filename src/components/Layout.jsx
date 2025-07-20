@@ -50,8 +50,18 @@ const Layout = ({ children }) => {
             title: "Support",
             links: [
               { name: "Help Center", path: "#" },
-              { name: "Contact", path: "#" },
-              { name: "Privacy", path: "#" }
+              { name: "Contact", path: "/contact" },
+              { name: "Privacy", path: "/privacy" }
+            ]
+          },
+          legal: {
+            title: "Legal",
+            links: [
+              { name: "Privacy Policy", path: "/privacy" },
+              { name: "Terms of Service", path: "/terms" },
+              { name: "Cookie Policy", path: "/cookie-policy" },
+              { name: "GDPR", path: "/confidentiality" },
+              { name: "Legal Notice", path: "/legal" }
             ]
           }
         },
@@ -92,8 +102,18 @@ const Layout = ({ children }) => {
             title: "Support",
             links: [
               { name: "Centre d'Aide", path: "#" },
-              { name: "Contact", path: "#" },
-              { name: "Confidentialité", path: "#" }
+              { name: "Contact", path: "/contact" },
+              { name: "Confidentialité", path: "/privacy" }
+            ]
+          },
+          legal: {
+            title: "Légal",
+            links: [
+              { name: "Politique de Confidentialité", path: "/privacy" },
+              { name: "Conditions d'Utilisation", path: "/terms" },
+              { name: "Politique de Cookies", path: "/cookie-policy" },
+              { name: "RGPD", path: "/confidentiality" },
+              { name: "Mentions Légales", path: "/legal" }
             ]
           }
         },
@@ -140,6 +160,9 @@ const Layout = ({ children }) => {
                 <Link to="/careers" className="text-gray-700 hover:text-primary-600 transition-colors">
                   {t.nav.careers}
                 </Link>
+                <Link to="/contact" className="text-gray-700 hover:text-primary-600 transition-colors">
+                  Contact
+                </Link>
                 {!user && (
                   <Link to="/auth" className="text-gray-700 hover:text-primary-600 transition-colors">
                     {t.nav.signIn}
@@ -176,8 +199,8 @@ const Layout = ({ children }) => {
       {/* Footer - Show for all pages */}
       <footer className="bg-gray-800 text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
+          <div className="grid md:grid-cols-5 gap-8">
+            <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="bg-primary-500 p-2 rounded-lg">
                   <SafeIcon icon={FiTrendingUp} className="text-white text-xl" />
@@ -191,7 +214,6 @@ const Layout = ({ children }) => {
                 {t.footer.description}
               </p>
             </div>
-
             <div>
               <h4 className="text-lg font-semibold mb-4">{t.footer.sections.product.title}</h4>
               <ul className="space-y-2 text-gray-400">
@@ -204,7 +226,6 @@ const Layout = ({ children }) => {
                 ))}
               </ul>
             </div>
-
             <div>
               <h4 className="text-lg font-semibold mb-4">{t.footer.sections.company.title}</h4>
               <ul className="space-y-2 text-gray-400">
@@ -217,21 +238,19 @@ const Layout = ({ children }) => {
                 ))}
               </ul>
             </div>
-
             <div>
-              <h4 className="text-lg font-semibold mb-4">{t.footer.sections.support.title}</h4>
+              <h4 className="text-lg font-semibold mb-4">{t.footer.sections.legal.title}</h4>
               <ul className="space-y-2 text-gray-400">
-                {t.footer.sections.support.links.map((link, index) => (
+                {t.footer.sections.legal.links.map((link, index) => (
                   <li key={index}>
-                    <a href={link.path} className="hover:text-white transition-colors">
+                    <Link to={link.path} className="hover:text-white transition-colors">
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
             <p>{t.footer.copyright}</p>
           </div>
