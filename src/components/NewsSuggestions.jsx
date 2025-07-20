@@ -29,9 +29,19 @@ const NewsSuggestions = ({ onClose, onAddKeyword }) => {
       keyTakeaways: "Key Takeaways",
       howToUse: "How to Use in Your Pitch",
       addKeywords: "Add Keywords to Your Pitch",
+      useCaseKeywords: {
+        founder: ["market opportunity", "scalability", "revenue model", "competitive advantage", "growth metrics"],
+        employee: ["project updates", "key achievements", "next steps", "resource needs", "timeline"],
+        executive: ["action plan", "accountability", "transparency", "next steps", "team unity"],
+        sales_rep: ["value proposition", "customer benefits", "pain points", "solution fit", "closing techniques"],
+        parent: ["understanding", "boundaries", "consequences", "support", "expectations"],
+        teacher: ["learning objectives", "student engagement", "clear instructions", "feedback", "motivation"],
+        negotiator: ["leverage points", "compromise options", "bottom line", "mutual benefits", "closing terms"],
+        lawyer: ["opening statement", "key evidence", "legal precedent", "closing argument", "jury persuasion"]
+      },
       takeaways: [
         "Market trends are shifting towards digital solutions",
-        "Customer expectations are evolving rapidly", 
+        "Customer expectations are evolving rapidly",
         "Companies need to adapt quickly to stay competitive",
         "Innovation is key to maintaining market position"
       ],
@@ -58,6 +68,16 @@ const NewsSuggestions = ({ onClose, onAddKeyword }) => {
       keyTakeaways: "Points Clés à Retenir",
       howToUse: "Comment Utiliser dans Votre Présentation",
       addKeywords: "Ajouter des Mots-clés à Votre Présentation",
+      useCaseKeywords: {
+        founder: ["opportunité de marché", "évolutivité", "modèle de revenus", "avantage concurrentiel", "métriques de croissance"],
+        employee: ["mises à jour projet", "réalisations clés", "prochaines étapes", "besoins ressources", "calendrier"],
+        executive: ["plan d'action", "responsabilité", "transparence", "prochaines étapes", "unité équipe"],
+        sales_rep: ["proposition de valeur", "bénéfices client", "points de douleur", "adéquation solution", "techniques de closing"],
+        parent: ["compréhension", "limites", "conséquences", "soutien", "attentes"],
+        teacher: ["objectifs d'apprentissage", "engagement étudiant", "instructions claires", "feedback", "motivation"],
+        negotiator: ["points de levier", "options de compromis", "ligne rouge", "bénéfices mutuels", "termes de clôture"],
+        lawyer: ["déclaration d'ouverture", "preuves clés", "précédent juridique", "plaidoirie finale", "persuasion du jury"]
+      },
       takeaways: [
         "Les tendances du marché évoluent vers les solutions numériques",
         "Les attentes des clients évoluent rapidement",
@@ -75,42 +95,51 @@ const NewsSuggestions = ({ onClose, onAddKeyword }) => {
 
   const t = translations[language];
 
-  // Mock news data - in reality, this would come from an API
+  // Generate contextual keywords based on use cases
+  const getContextualKeywords = () => {
+    const allKeywords = [];
+    Object.values(t.useCaseKeywords).forEach(keywords => {
+      allKeywords.push(...keywords);
+    });
+    return [...new Set(allKeywords)]; // Remove duplicates
+  };
+
+  // Mock news data with contextual keywords
   const mockNews = {
     industry: [
       {
         id: 1,
-        title: language === 'en' ? "AI-Powered Sales Tools See 300% Growth" : "Les Outils de Vente Alimentés par IA Voient une Croissance de 300%",
-        summary: language === 'en' ? "The sales technology sector is experiencing unprecedented growth as AI tools become mainstream." : "Le secteur de la technologie de vente connaît une croissance sans précédent alors que les outils IA deviennent mainstream.",
-        keywords: language === 'en' ? ["AI automation", "sales efficiency", "digital transformation", "customer insights"] : ["automatisation IA", "efficacité commerciale", "transformation numérique", "insights clients"],
+        title: language === 'en' ? "AI-Powered Communication Tools See 300% Growth" : "Les Outils de Communication Alimentés par IA Voient une Croissance de 300%",
+        summary: language === 'en' ? "The communication technology sector is experiencing unprecedented growth as AI tools become mainstream." : "Le secteur de la technologie de communication connaît une croissance sans précédent alors que les outils IA deviennent mainstream.",
+        keywords: getContextualKeywords().slice(0, 6),
         date: "2024-01-15",
         source: language === 'en' ? "Industry Report" : "Rapport Sectoriel"
       },
       {
         id: 2,
-        title: language === 'en' ? "Remote Sales Teams Outperform Traditional Models" : "Les Équipes de Vente à Distance Surpassent les Modèles Traditionnels",
-        summary: language === 'en' ? "Companies with remote sales teams are closing 40% more deals than traditional office-based teams." : "Les entreprises avec des équipes de vente à distance concluent 40% plus d'affaires que les équipes traditionnelles basées au bureau.",
-        keywords: language === 'en' ? ["remote selling", "virtual meetings", "digital collaboration", "performance metrics"] : ["vente à distance", "réunions virtuelles", "collaboration numérique", "métriques de performance"],
+        title: language === 'en' ? "Remote Communication Skills Become Essential" : "Les Compétences de Communication à Distance Deviennent Essentielles",
+        summary: language === 'en' ? "Companies with strong remote communication are outperforming traditional office-based teams." : "Les entreprises avec une forte communication à distance surpassent les équipes traditionnelles basées au bureau.",
+        keywords: getContextualKeywords().slice(6, 12),
         date: "2024-01-12",
-        source: language === 'en' ? "Sales Research Institute" : "Institut de Recherche Commerciale"
+        source: language === 'en' ? "Communication Research Institute" : "Institut de Recherche Communication"
       }
     ],
     external: [
       {
         id: 3,
-        title: language === 'en' ? "Sustainability Becomes Top Priority for B2B Buyers" : "La Durabilité Devient une Priorité Absolue pour les Acheteurs B2B",
-        summary: language === 'en' ? "78% of business buyers now consider environmental impact when making purchasing decisions." : "78% des acheteurs d'entreprises considèrent maintenant l'impact environnemental lors de leurs décisions d'achat.",
-        keywords: language === 'en' ? ["sustainability", "green solutions", "environmental impact", "corporate responsibility"] : ["durabilité", "solutions vertes", "impact environnemental", "responsabilité d'entreprise"],
+        title: language === 'en' ? "Effective Communication Drives Business Success" : "La Communication Efficace Stimule le Succès Commercial",
+        summary: language === 'en' ? "78% of business leaders now consider communication skills as the top factor for success." : "78% des dirigeants d'entreprise considèrent maintenant les compétences de communication comme le facteur principal de succès.",
+        keywords: getContextualKeywords().slice(12, 18),
         date: "2024-01-14",
         source: language === 'en' ? "Business Trends Weekly" : "Tendances Business Hebdomadaire"
       },
       {
         id: 4,
-        title: language === 'en' ? "Mental Health Awareness Drives Workplace Innovation" : "La Sensibilisation à la Santé Mentale Stimule l'Innovation en Milieu de Travail",
-        summary: language === 'en' ? "Companies investing in employee wellbeing see 25% higher productivity and retention rates." : "Les entreprises investissant dans le bien-être des employés voient des taux de productivité et de rétention 25% plus élevés.",
-        keywords: language === 'en' ? ["employee wellbeing", "mental health", "workplace culture", "productivity"] : ["bien-être des employés", "santé mentale", "culture d'entreprise", "productivité"],
+        title: language === 'en' ? "Presentation Skills Training Shows ROI Growth" : "La Formation aux Compétences de Présentation Montre une Croissance du ROI",
+        summary: language === 'en' ? "Companies investing in presentation training see 25% higher success rates in business deals." : "Les entreprises investissant dans la formation aux présentations voient des taux de succès 25% plus élevés dans les affaires.",
+        keywords: getContextualKeywords().slice(18, 24),
         date: "2024-01-13",
-        source: language === 'en' ? "HR Innovation Today" : "Innovation RH Aujourd'hui"
+        source: language === 'en' ? "Training ROI Today" : "ROI Formation Aujourd'hui"
       }
     ]
   };
@@ -131,17 +160,9 @@ const NewsSuggestions = ({ onClose, onAddKeyword }) => {
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-2">
-          <SafeIcon
-            icon={type === 'industry' ? FiTrendingUp : FiGlobe}
-            className={`text-lg ${type === 'industry' ? 'text-blue-500' : 'text-green-500'}`}
-          />
-          <span className={`text-xs px-2 py-1 rounded-full ${
-            type === 'industry' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
-          }`}>
-            {type === 'industry' 
-              ? `${user?.industry || (language === 'en' ? 'Your Industry' : 'Votre Secteur')}` 
-              : (language === 'en' ? 'Cross-Industry' : 'Inter-Sectoriel')
-            }
+          <SafeIcon icon={type === 'industry' ? FiTrendingUp : FiGlobe} className={`text-lg ${type === 'industry' ? 'text-blue-500' : 'text-green-500'}`} />
+          <span className={`text-xs px-2 py-1 rounded-full ${type === 'industry' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+            {type === 'industry' ? `${user?.industry || (language === 'en' ? 'Your Industry' : 'Votre Secteur')}` : (language === 'en' ? 'Cross-Industry' : 'Inter-Sectoriel')}
           </span>
         </div>
         <div className="flex items-center space-x-1 text-xs text-gray-500">
@@ -149,10 +170,10 @@ const NewsSuggestions = ({ onClose, onAddKeyword }) => {
           <span>{new Date(news.date).toLocaleDateString()}</span>
         </div>
       </div>
-      
+
       <h3 className="text-lg font-semibold text-gray-800 mb-2">{news.title}</h3>
       <p className="text-gray-600 mb-4 text-sm leading-relaxed">{news.summary}</p>
-      
+
       <div className="space-y-3">
         <div>
           <h4 className="text-sm font-semibold text-gray-700 mb-2">{t.suggestedKeywords}</h4>
@@ -171,7 +192,7 @@ const NewsSuggestions = ({ onClose, onAddKeyword }) => {
             ))}
           </div>
         </div>
-        
+
         <div className="flex items-center justify-between pt-2 border-t border-gray-100">
           <span className="text-xs text-gray-500">{t.source} {news.source}</span>
           <button
@@ -266,7 +287,7 @@ const NewsSuggestions = ({ onClose, onAddKeyword }) => {
             <div className="bg-white rounded-lg p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">{selectedNews.title}</h2>
               <p className="text-gray-600 mb-6 text-lg leading-relaxed">{selectedNews.summary}</p>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800 mb-3">{t.keyTakeaways}</h3>

@@ -4,14 +4,34 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
-   build: {
+  build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['framer-motion', 'react-icons', 'react-beautiful-dnd'],
+        },
+      },
+    },
+  },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'framer-motion',
+      'react-icons',
+      'react-beautiful-dnd',
+      'js-cookie',
+      'react-hot-toast',
+      'date-fns'
+    ],
   },
 });

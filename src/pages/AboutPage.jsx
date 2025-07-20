@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, {useState} from 'react';
+import {motion, AnimatePresence} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { useLanguage } from '../contexts/LanguageContext';
+import {useLanguage} from '../contexts/LanguageContext';
+import toast from 'react-hot-toast';
 
-const { 
-  FiChevronDown, 
-  FiMic, 
-  FiTarget, 
-  FiBarChart, 
-  FiUsers, 
-  FiTrendingUp,
-  FiBriefcase,
-  FiUser,
-  FiHeart,
-  FiHome,
-  FiBookOpen
-} = FiIcons;
+const {FiChevronDown, FiMic, FiTarget, FiBarChart, FiUsers, FiTrendingUp, FiBriefcase, FiUser, FiHeart, FiHome, FiBookOpen, FiScale, FiSend} = FiIcons;
 
 const AboutPage = () => {
-  const { language } = useLanguage();
+  const {language} = useLanguage();
   const [selectedPersona, setSelectedPersona] = useState(null);
+  const [contactForm, setContactForm] = useState({
+    useCase: '',
+    email: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const translations = {
     en: {
@@ -34,6 +28,7 @@ const AboutPage = () => {
           title: "I'm a technical founder who needs to pitch better to my VCs",
           icon: FiBriefcase,
           color: 'blue',
+          keywords: ['market opportunity', 'scalability', 'revenue model', 'competitive advantage', 'growth metrics'],
           benefits: [
             "Transform technical jargon into compelling investor language",
             "Track key metrics and market opportunity keywords",
@@ -53,6 +48,7 @@ const AboutPage = () => {
           title: "I'm a worker who needs to have a presentation soon with my manager",
           icon: FiUser,
           color: 'green',
+          keywords: ['project updates', 'key achievements', 'next steps', 'resource needs', 'timeline'],
           benefits: [
             "Build confidence for important workplace presentations",
             "Ensure you hit all key points your manager expects",
@@ -72,6 +68,7 @@ const AboutPage = () => {
           title: "I'm an executive who needs to mitigate a crisis with my team",
           icon: FiUsers,
           color: 'red',
+          keywords: ['action plan', 'accountability', 'transparency', 'next steps', 'team unity'],
           benefits: [
             "Craft clear, calm communication during crisis situations",
             "Ensure critical information is delivered effectively",
@@ -87,29 +84,31 @@ const AboutPage = () => {
           ]
         },
         {
-          id: 'solopreneur',
-          title: "I'm a solopreneur who wants to stay genuine to myself while keeping consistent logic",
+          id: 'sales_rep',
+          title: "I'm a sales rep who wants to stay genuine while keeping consistent selling points",
           icon: FiTrendingUp,
           color: 'purple',
+          keywords: ['value proposition', 'customer benefits', 'pain points', 'solution fit', 'closing techniques'],
           benefits: [
             "Maintain your authentic voice while structuring your message",
-            "Balance personal storytelling with business logic",
+            "Balance personal rapport with business selling points",
             "Practice until your pitch feels natural and genuine",
-            "Track consistency across different presentation contexts",
+            "Track consistency across different sales contexts",
             "Build confidence without losing your personality"
           ],
           features: [
             "Authenticity preservation tools",
-            "Personal brand consistency tracking",
+            "Sales message consistency tracking",
             "Natural flow optimization",
             "Multi-context practice scenarios"
           ]
         },
         {
           id: 'parent',
-          title: "I'm a mom who needs to have a difficult conversation with my teenager",
+          title: "I'm a parent who needs to have a difficult conversation with my teenager",
           icon: FiHeart,
           color: 'pink',
+          keywords: ['understanding', 'boundaries', 'consequences', 'support', 'expectations'],
           benefits: [
             "Practice sensitive conversations in a safe environment",
             "Find the right words for difficult topics",
@@ -129,6 +128,7 @@ const AboutPage = () => {
           title: "I'm a teacher who wants to engage my students more effectively",
           icon: FiBookOpen,
           color: 'orange',
+          keywords: ['learning objectives', 'student engagement', 'clear instructions', 'feedback', 'motivation'],
           benefits: [
             "Practice lesson delivery for maximum student engagement",
             "Track key educational concepts and learning objectives",
@@ -141,6 +141,46 @@ const AboutPage = () => {
             "Student engagement tracking",
             "Classroom presence building",
             "Age-appropriate communication"
+          ]
+        },
+        {
+          id: 'negotiator',
+          title: "I'm a negotiator who needs to master my key arguments",
+          icon: FiScale,
+          color: 'indigo',
+          keywords: ['leverage points', 'compromise options', 'bottom line', 'mutual benefits', 'closing terms'],
+          benefits: [
+            "Practice complex negotiation scenarios",
+            "Master your key arguments and counterarguments",
+            "Track emotional control during high-pressure situations",
+            "Ensure you cover all critical negotiation points",
+            "Build confidence for high-stakes discussions"
+          ],
+          features: [
+            "Negotiation scenario practice",
+            "Argument structure optimization",
+            "Pressure situation training",
+            "Strategic point tracking"
+          ]
+        },
+        {
+          id: 'lawyer',
+          title: "I'm a lawyer who wants to perfect my courtroom presentation",
+          icon: FiScale,
+          color: 'gray',
+          keywords: ['opening statement', 'key evidence', 'legal precedent', 'closing argument', 'jury persuasion'],
+          benefits: [
+            "Practice courtroom presentations with precision",
+            "Master the art of legal argumentation",
+            "Track persuasive language and tone",
+            "Ensure all critical legal points are covered",
+            "Build confidence for high-stakes legal presentations"
+          ],
+          features: [
+            "Legal presentation structure",
+            "Persuasive language optimization",
+            "Courtroom presence building",
+            "Evidence presentation tracking"
           ]
         }
       ],
@@ -168,6 +208,16 @@ const AboutPage = () => {
             description: "Practice in English and French"
           }
         ]
+      },
+      contact: {
+        title: "Have a Specific Use Case?",
+        subtitle: "Tell us about your situation and we'll help you get started",
+        useCasePlaceholder: "Describe your specific communication challenge...",
+        emailPlaceholder: "Your email address",
+        submitButton: "Send My Use Case",
+        submitting: "Sending...",
+        successMessage: "Thank you! We'll get back to you soon with personalized suggestions.",
+        errorMessage: "Please fill in both fields"
       }
     },
     fr: {
@@ -181,6 +231,7 @@ const AboutPage = () => {
           title: "Je suis un fondateur technique qui doit mieux présenter aux investisseurs",
           icon: FiBriefcase,
           color: 'blue',
+          keywords: ['opportunité de marché', 'évolutivité', 'modèle de revenus', 'avantage concurrentiel', 'métriques de croissance'],
           benefits: [
             "Transformer le jargon technique en langage d'investisseur convaincant",
             "Suivre les métriques clés et mots-clés d'opportunité de marché",
@@ -200,6 +251,7 @@ const AboutPage = () => {
           title: "Je suis un employé qui doit faire une présentation prochainement avec mon manager",
           icon: FiUser,
           color: 'green',
+          keywords: ['mises à jour projet', 'réalisations clés', 'prochaines étapes', 'besoins ressources', 'calendrier'],
           benefits: [
             "Développer la confiance pour les présentations importantes",
             "S'assurer de couvrir tous les points clés attendus",
@@ -219,6 +271,7 @@ const AboutPage = () => {
           title: "Je suis un dirigeant qui doit gérer une crise avec mon équipe",
           icon: FiUsers,
           color: 'red',
+          keywords: ['plan d\'action', 'responsabilité', 'transparence', 'prochaines étapes', 'unité équipe'],
           benefits: [
             "Créer une communication claire et calme en situation de crise",
             "S'assurer que l'information critique est transmise efficacement",
@@ -234,29 +287,31 @@ const AboutPage = () => {
           ]
         },
         {
-          id: 'solopreneur',
-          title: "Je suis un entrepreneur solo qui veut rester authentique tout en gardant une logique cohérente",
+          id: 'sales_rep',
+          title: "Je suis un commercial qui veut rester authentique tout en gardant des arguments de vente cohérents",
           icon: FiTrendingUp,
           color: 'purple',
+          keywords: ['proposition de valeur', 'bénéfices client', 'points de douleur', 'adéquation solution', 'techniques de closing'],
           benefits: [
             "Maintenir votre voix authentique tout en structurant le message",
-            "Équilibrer storytelling personnel et logique business",
+            "Équilibrer rapport personnel et arguments commerciaux",
             "Pratiquer jusqu'à ce que votre pitch soit naturel et authentique",
-            "Suivre la cohérence dans différents contextes",
+            "Suivre la cohérence dans différents contextes de vente",
             "Développer la confiance sans perdre votre personnalité"
           ],
           features: [
             "Outils de préservation de l'authenticité",
-            "Suivi de cohérence de marque personnelle",
+            "Suivi de cohérence des messages de vente",
             "Optimisation du flux naturel",
             "Scénarios de pratique multi-contextes"
           ]
         },
         {
           id: 'parent',
-          title: "Je suis une maman qui doit avoir une conversation difficile avec mon adolescent",
+          title: "Je suis un parent qui doit avoir une conversation difficile avec mon adolescent",
           icon: FiHeart,
           color: 'pink',
+          keywords: ['compréhension', 'limites', 'conséquences', 'soutien', 'attentes'],
           benefits: [
             "Pratiquer les conversations sensibles dans un environnement sûr",
             "Trouver les bons mots pour les sujets difficiles",
@@ -276,6 +331,7 @@ const AboutPage = () => {
           title: "Je suis un enseignant qui veut engager mes étudiants plus efficacement",
           icon: FiBookOpen,
           color: 'orange',
+          keywords: ['objectifs d\'apprentissage', 'engagement étudiant', 'instructions claires', 'feedback', 'motivation'],
           benefits: [
             "Pratiquer la livraison de cours pour un engagement maximal",
             "Suivre les concepts éducatifs clés et objectifs d'apprentissage",
@@ -288,6 +344,46 @@ const AboutPage = () => {
             "Suivi de l'engagement étudiant",
             "Développement de présence en classe",
             "Communication adaptée à l'âge"
+          ]
+        },
+        {
+          id: 'negotiator',
+          title: "Je suis un négociateur qui doit maîtriser mes arguments clés",
+          icon: FiScale,
+          color: 'indigo',
+          keywords: ['points de levier', 'options de compromis', 'ligne rouge', 'bénéfices mutuels', 'termes de clôture'],
+          benefits: [
+            "Pratiquer des scénarios de négociation complexes",
+            "Maîtriser vos arguments clés et contre-arguments",
+            "Suivre le contrôle émotionnel dans les situations de pression",
+            "S'assurer de couvrir tous les points critiques de négociation",
+            "Développer la confiance pour les discussions à enjeux élevés"
+          ],
+          features: [
+            "Pratique de scénarios de négociation",
+            "Optimisation de la structure d'argumentation",
+            "Entraînement aux situations de pression",
+            "Suivi des points stratégiques"
+          ]
+        },
+        {
+          id: 'lawyer',
+          title: "Je suis un avocat qui veut perfectionner ma plaidoirie",
+          icon: FiScale,
+          color: 'gray',
+          keywords: ['déclaration d\'ouverture', 'preuves clés', 'précédent juridique', 'plaidoirie finale', 'persuasion du jury'],
+          benefits: [
+            "Pratiquer les plaidoiries avec précision",
+            "Maîtriser l'art de l'argumentation juridique",
+            "Suivre le langage persuasif et le ton",
+            "S'assurer que tous les points juridiques critiques sont couverts",
+            "Développer la confiance pour les plaidoiries à enjeux élevés"
+          ],
+          features: [
+            "Structure de plaidoirie juridique",
+            "Optimisation du langage persuasif",
+            "Développement de présence au tribunal",
+            "Suivi de présentation des preuves"
           ]
         }
       ],
@@ -315,6 +411,16 @@ const AboutPage = () => {
             description: "Pratiquez en anglais et en français"
           }
         ]
+      },
+      contact: {
+        title: "Vous Avez un Cas d'Usage Spécifique ?",
+        subtitle: "Parlez-nous de votre situation et nous vous aiderons à commencer",
+        useCasePlaceholder: "Décrivez votre défi de communication spécifique...",
+        emailPlaceholder: "Votre adresse email",
+        submitButton: "Envoyer Mon Cas d'Usage",
+        submitting: "Envoi...",
+        successMessage: "Merci ! Nous vous répondrons bientôt avec des suggestions personnalisées.",
+        errorMessage: "Veuillez remplir les deux champs"
       }
     }
   };
@@ -328,9 +434,37 @@ const AboutPage = () => {
       red: 'from-red-500 to-red-600',
       purple: 'from-purple-500 to-purple-600',
       pink: 'from-pink-500 to-pink-600',
-      orange: 'from-orange-500 to-orange-600'
+      orange: 'from-orange-500 to-orange-600',
+      indigo: 'from-indigo-500 to-indigo-600',
+      gray: 'from-gray-500 to-gray-600'
     };
     return colors[color] || colors.blue;
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    if (!contactForm.useCase.trim() || !contactForm.email.trim()) {
+      toast.error(t.contact.errorMessage);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      // Simulate API call - replace with actual implementation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Contact form submission:', contactForm);
+      toast.success(t.contact.successMessage);
+      setContactForm({useCase: '', email: ''});
+    } catch (error) {
+      toast.error('Error sending message');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleContactChange = (e) => {
+    const {name, value} = e.target;
+    setContactForm(prev => ({...prev, [name]: value}));
   };
 
   return (
@@ -340,16 +474,16 @@ const AboutPage = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.h1
             className="text-5xl font-bold text-gray-800 mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
           >
             {t.hero.title}
           </motion.h1>
           <motion.p
             className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            transition={{delay: 0.2}}
           >
             {t.hero.subtitle}
           </motion.p>
@@ -364,15 +498,15 @@ const AboutPage = () => {
               <motion.div
                 key={persona.id}
                 className="border border-gray-200 rounded-lg overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}
+                transition={{delay: index * 0.1}}
               >
                 <motion.button
                   onClick={() => setSelectedPersona(selectedPersona === persona.id ? null : persona.id)}
                   className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
+                  whileHover={{scale: 1.01}}
+                  whileTap={{scale: 0.99}}
                 >
                   <div className="flex items-center space-x-4">
                     <div className={`p-3 rounded-lg bg-gradient-to-r ${getColorClasses(persona.color)}`}>
@@ -381,8 +515,8 @@ const AboutPage = () => {
                     <h3 className="text-lg font-semibold text-gray-800">{persona.title}</h3>
                   </div>
                   <motion.div
-                    animate={{ rotate: selectedPersona === persona.id ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
+                    animate={{rotate: selectedPersona === persona.id ? 180 : 0}}
+                    transition={{duration: 0.2}}
                   >
                     <SafeIcon icon={FiChevronDown} className="text-gray-400" />
                   </motion.div>
@@ -391,10 +525,10 @@ const AboutPage = () => {
                 <AnimatePresence>
                   {selectedPersona === persona.id && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      initial={{height: 0, opacity: 0}}
+                      animate={{height: 'auto', opacity: 1}}
+                      exit={{height: 0, opacity: 0}}
+                      transition={{duration: 0.3}}
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-6 bg-gray-50">
@@ -416,7 +550,7 @@ const AboutPage = () => {
                             <h4 className="text-lg font-semibold text-gray-800 mb-3">
                               {language === 'en' ? 'Key Features:' : 'Fonctionnalités Clés :'}
                             </h4>
-                            <ul className="space-y-2">
+                            <ul className="space-y-2 mb-4">
                               {persona.features.map((feature, featureIndex) => (
                                 <li key={featureIndex} className="flex items-start space-x-2">
                                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
@@ -424,6 +558,19 @@ const AboutPage = () => {
                                 </li>
                               ))}
                             </ul>
+                            <h4 className="text-lg font-semibold text-gray-800 mb-3">
+                              {language === 'en' ? 'Suggested Keywords:' : 'Mots-clés Suggérés :'}
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {persona.keywords.map((keyword, keywordIndex) => (
+                                <span
+                                  key={keywordIndex}
+                                  className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"
+                                >
+                                  {keyword}
+                                </span>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -436,15 +583,92 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Core Features Section */}
+      {/* Contact Form Section */}
       <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-12">
+              <motion.h2
+                className="text-4xl font-bold text-gray-800 mb-4"
+                initial={{opacity: 0, y: 20}}
+                whileInView={{opacity: 1, y: 0}}
+                viewport={{once: true}}
+              >
+                {t.contact.title}
+              </motion.h2>
+              <motion.p
+                className="text-xl text-gray-600"
+                initial={{opacity: 0, y: 20}}
+                whileInView={{opacity: 1, y: 0}}
+                transition={{delay: 0.2}}
+                viewport={{once: true}}
+              >
+                {t.contact.subtitle}
+              </motion.p>
+            </div>
+
+            <motion.form
+              onSubmit={handleContactSubmit}
+              className="bg-white rounded-2xl p-8 shadow-lg space-y-6"
+              initial={{opacity: 0, y: 20}}
+              whileInView={{opacity: 1, y: 0}}
+              viewport={{once: true}}
+            >
+              <div>
+                <textarea
+                  name="useCase"
+                  value={contactForm.useCase}
+                  onChange={handleContactChange}
+                  placeholder={t.contact.useCasePlaceholder}
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  value={contactForm.email}
+                  onChange={handleContactChange}
+                  placeholder={t.contact.emailPlaceholder}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-primary-500 text-white py-3 px-6 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                whileHover={{scale: 1.02}}
+                whileTap={{scale: 0.98}}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>{t.contact.submitting}</span>
+                  </>
+                ) : (
+                  <>
+                    <SafeIcon icon={FiSend} />
+                    <span>{t.contact.submitButton}</span>
+                  </>
+                )}
+              </motion.button>
+            </motion.form>
+          </div>
+        </div>
+      </section>
+
+      {/* Core Features Section */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <motion.h2
               className="text-4xl font-bold text-gray-800 mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              initial={{opacity: 0, y: 20}}
+              whileInView={{opacity: 1, y: 0}}
+              viewport={{once: true}}
             >
               {t.features.title}
             </motion.h2>
@@ -455,10 +679,10 @@ const AboutPage = () => {
               <motion.div
                 key={index}
                 className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                initial={{opacity: 0, y: 20}}
+                whileInView={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
+                viewport={{once: true}}
               >
                 <div className="bg-primary-100 p-4 rounded-lg w-fit mx-auto mb-4">
                   <SafeIcon icon={feature.icon} className="text-3xl text-primary-500" />
@@ -476,29 +700,26 @@ const AboutPage = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             className="text-4xl font-bold text-white mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true}}
           >
             {language === 'en' ? 'Ready to Transform Your Communication?' : 'Prêt à Transformer Votre Communication ?'}
           </motion.h2>
           <motion.p
             className="text-xl text-primary-100 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            transition={{delay: 0.2}}
+            viewport={{once: true}}
           >
-            {language === 'en' 
-              ? 'Start practicing today and see immediate improvements in your presentations'
-              : 'Commencez à pratiquer aujourd\'hui et voyez des améliorations immédiates dans vos présentations'
-            }
+            {language === 'en' ? 'Start practicing today and see immediate improvements in your presentations' : 'Commencez à pratiquer aujourd\'hui et voyez des améliorations immédiates dans vos présentations'}
           </motion.p>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            transition={{delay: 0.4}}
+            viewport={{once: true}}
           >
             <a
               href="/auth"

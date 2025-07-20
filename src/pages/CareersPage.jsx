@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, {useState} from 'react';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { useLanguage } from '../contexts/LanguageContext';
+import {useLanguage} from '../contexts/LanguageContext';
 import toast from 'react-hot-toast';
 
-const { FiUpload, FiUser, FiMail, FiFileText, FiSend, FiCheck } = FiIcons;
+const {FiUpload, FiUser, FiMail, FiFileText, FiSend, FiCheck} = FiIcons;
 
 const CareersPage = () => {
-  const { language } = useLanguage();
+  const {language} = useLanguage();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -46,46 +46,6 @@ const CareersPage = () => {
         title: "Application Submitted Successfully!",
         message: "Thank you for your interest in PopSales. We'll review your application and get back to you soon.",
         backToSite: "Back to Site"
-      },
-      positions: {
-        title: "Open Positions",
-        list: [
-          {
-            title: "Senior Frontend Developer",
-            location: "Remote",
-            type: "Full-time",
-            description: "Build beautiful, responsive user interfaces using React and modern web technologies."
-          },
-          {
-            title: "AI/ML Engineer",
-            location: "Remote",
-            type: "Full-time",
-            description: "Develop and improve our speech analysis and natural language processing capabilities."
-          },
-          {
-            title: "Sales Development Representative",
-            location: "Remote",
-            type: "Full-time",
-            description: "Help grow our customer base by identifying and qualifying potential customers."
-          },
-          {
-            title: "UX/UI Designer",
-            location: "Remote",
-            type: "Full-time",
-            description: "Design intuitive and engaging user experiences for our speech coaching platform."
-          }
-        ]
-      },
-      benefits: {
-        title: "Why Work at PopSales?",
-        items: [
-          "🌍 Fully remote team",
-          "💰 Competitive salary & equity",
-          "🏥 Health, dental & vision insurance",
-          "🏖️ Unlimited PTO policy",
-          "📚 Learning & development budget",
-          "🎯 Meaningful work that helps people communicate better"
-        ]
       }
     },
     fr: {
@@ -114,46 +74,6 @@ const CareersPage = () => {
         title: "Candidature Soumise avec Succès !",
         message: "Merci pour votre intérêt pour PopSales. Nous examinerons votre candidature et vous répondrons bientôt.",
         backToSite: "Retour au Site"
-      },
-      positions: {
-        title: "Postes Ouverts",
-        list: [
-          {
-            title: "Développeur Frontend Senior",
-            location: "Télétravail",
-            type: "Temps plein",
-            description: "Créer des interfaces utilisateur belles et responsives en utilisant React et les technologies web modernes."
-          },
-          {
-            title: "Ingénieur IA/ML",
-            location: "Télétravail",
-            type: "Temps plein",
-            description: "Développer et améliorer nos capacités d'analyse vocale et de traitement du langage naturel."
-          },
-          {
-            title: "Représentant Développement Commercial",
-            location: "Télétravail",
-            type: "Temps plein",
-            description: "Aider à développer notre base de clients en identifiant et qualifiant les clients potentiels."
-          },
-          {
-            title: "Designer UX/UI",
-            location: "Télétravail",
-            type: "Temps plein",
-            description: "Concevoir des expériences utilisateur intuitives et engageantes pour notre plateforme de coaching vocal."
-          }
-        ]
-      },
-      benefits: {
-        title: "Pourquoi Travailler chez PopSales ?",
-        items: [
-          "🌍 Équipe entièrement à distance",
-          "💰 Salaire compétitif et actions",
-          "🏥 Assurance santé, dentaire et vision",
-          "🏖️ Politique de congés illimités",
-          "📚 Budget d'apprentissage et développement",
-          "🎯 Travail significatif qui aide les gens à mieux communiquer"
-        ]
       }
     }
   };
@@ -161,17 +81,17 @@ const CareersPage = () => {
   const t = translations[language];
 
   const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
+    const {name, value, files} = e.target;
     if (name === 'cv') {
-      setFormData(prev => ({ ...prev, [name]: files[0] }));
+      setFormData(prev => ({...prev, [name]: files[0]}));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData(prev => ({...prev, [name]: value}));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Basic validation
     if (!formData.fullName || !formData.email || !formData.position || !formData.coverLetter) {
       toast.error(t.form.required);
@@ -183,10 +103,8 @@ const CareersPage = () => {
     // Simulate form submission
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // In a real application, you would send this data to your backend
+      // In a real application, you would send this data to contact@popsales.io
       console.log('Form data:', formData);
-      
       toast.success(language === 'en' ? 'Application submitted successfully!' : 'Candidature soumise avec succès !');
       setSubmitted(true);
     } catch (error) {
@@ -200,8 +118,8 @@ const CareersPage = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{opacity: 0, scale: 0.9}}
+          animate={{opacity: 1, scale: 1}}
           className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center"
         >
           <div className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-6">
@@ -227,73 +145,19 @@ const CareersPage = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.h1
             className="text-5xl font-bold text-gray-800 mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
           >
             {t.hero.title}
           </motion.h1>
           <motion.p
             className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            transition={{delay: 0.2}}
           >
             {t.hero.subtitle}
           </motion.p>
-        </div>
-      </section>
-
-      {/* Open Positions */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t.positions.title}</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-16">
-            {t.positions.list.map((position, index) => (
-              <motion.div
-                key={index}
-                className="bg-gray-50 p-6 rounded-lg border border-gray-200"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">{position.title}</h3>
-                <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
-                  <span>{position.location}</span>
-                  <span>•</span>
-                  <span>{position.type}</span>
-                </div>
-                <p className="text-gray-700">{position.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t.benefits.title}</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {t.benefits.items.map((benefit, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-4 rounded-lg text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <span className="text-gray-700">{benefit}</span>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -309,8 +173,8 @@ const CareersPage = () => {
             <motion.form
               onSubmit={handleSubmit}
               className="bg-gray-50 p-8 rounded-2xl space-y-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
             >
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -401,8 +265,8 @@ const CareersPage = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full bg-primary-500 text-white py-3 px-6 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{scale: 1.02}}
+                whileTap={{scale: 0.98}}
               >
                 {isSubmitting ? (
                   <>
