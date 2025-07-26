@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
-import SafeIcon from '../common/SafeIcon';
+import SafeIcon from './SafeIcon';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const { FiShield } = FiIcons;
@@ -42,31 +42,31 @@ const ConsentLogin = ({ onAccept, onDecline }) => {
         </div>
         <h3 className="text-xl font-semibold text-gray-800">{t.title}</h3>
       </div>
-      
+
       <p className="text-gray-600 mb-4">
         {t.message}
       </p>
-      
+
       <div className="flex items-center justify-center space-x-4 mb-6">
-        <a 
-          href="/privacy" 
-          className="text-primary-500 hover:text-primary-600 text-sm" 
-          target="_blank" 
+        <a
+          href="/privacy"
+          className="text-primary-500 hover:text-primary-600 text-sm"
+          target="_blank"
           rel="noopener noreferrer"
         >
           {t.privacyLink}
         </a>
         <span className="text-gray-300">|</span>
-        <a 
-          href="/terms" 
-          className="text-primary-500 hover:text-primary-600 text-sm" 
-          target="_blank" 
+        <a
+          href="/terms"
+          className="text-primary-500 hover:text-primary-600 text-sm"
+          target="_blank"
           rel="noopener noreferrer"
         >
           {t.termsLink}
         </a>
       </div>
-      
+
       <div className="flex flex-col space-y-2">
         <button
           onClick={onAccept}

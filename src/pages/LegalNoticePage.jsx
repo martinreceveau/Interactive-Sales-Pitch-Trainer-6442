@@ -4,7 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 const LegalNoticePage = () => {
   const { language } = useLanguage();
-  
+
   const translations = {
     en: {
       title: "Legal Notice",
@@ -12,9 +12,10 @@ const LegalNoticePage = () => {
       sections: [
         {
           title: "1. Company Information",
-          content: `PopSales [Company Registration Details]
-[Company Address]
-Email: contact@popsales.io`
+          content: `PopSales
+          [Company Registration Details]
+          [Company Address]
+          Email: contact@popsales.io`
         },
         {
           title: "2. Website Terms",
@@ -44,9 +45,10 @@ Email: contact@popsales.io`
       sections: [
         {
           title: "1. Informations sur la Société",
-          content: `PopSales [Détails d'Enregistrement de la Société]
-[Adresse de la Société]
-Email : contact@popsales.io`
+          content: `PopSales
+          [Détails d'Enregistrement de la Société]
+          [Adresse de la Société]
+          Email : contact@popsales.io`
         },
         {
           title: "2. Conditions d'Utilisation du Site",
@@ -77,14 +79,14 @@ Email : contact@popsales.io`
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8"
         >
           <h1 className="text-4xl font-bold text-gray-800 mb-4">{t.title}</h1>
           <p className="text-gray-600 mb-8">{t.lastUpdated}</p>
-          
+
           <div className="space-y-8">
             {t.sections.map((section, index) => (
               <motion.div

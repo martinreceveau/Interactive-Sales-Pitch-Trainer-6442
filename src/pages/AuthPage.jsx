@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import ConsentLogin from '../components/ConsentLogin';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -20,7 +19,6 @@ const AuthPage = () => {
     industry: ''
   });
   const [errors, setErrors] = useState({});
-  const [showConsent, setShowConsent] = useState(false);
   const { signUp, signIn, loading } = useAuth();
   const navigate = useNavigate();
   const { language } = useLanguage();
@@ -169,17 +167,10 @@ const AuthPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
+    setFormData(prev => ({ ...prev, [name]: value }));
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+      setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -202,7 +193,6 @@ const AuthPage = () => {
       if (!formData.fullName) {
         newErrors.fullName = t.errors.nameRequired;
       }
-
       if (!formData.industry) {
         newErrors.industry = t.errors.industryRequired;
       }
@@ -215,45 +205,28 @@ const AuthPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    
-    // Show consent dialog before proceeding
-    setShowConsent(true);
-  };
-  
-  const handleConsentAccept = async () => {
+
     try {
       let result;
-      
       if (isSignUp) {
-        result = await signUp(
-          formData.email,
-          formData.password,
-          formData.fullName,
-          formData.industry
-        );
+        result = await signUp(formData.email, formData.password, formData.fullName, formData.industry);
       } else {
         result = await signIn(formData.email, formData.password);
       }
-      
+
       if (result.success) {
         navigate('/dashboard');
       }
     } catch (error) {
       console.error('Auth error:', error);
     }
-    
-    setShowConsent(false);
-  };
-  
-  const handleConsentDecline = () => {
-    setShowConsent(false);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         {/* Header */}
-        <motion.div
+        <motion.div 
           className="text-center mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -267,11 +240,11 @@ const AuthPage = () => {
               <p className="text-sm text-gray-600">Pitch better. Speak like you</p>
             </div>
           </Link>
-
+          
           <div className="absolute top-4 right-4">
             <LanguageSwitcher variant="buttons" />
           </div>
-
+          
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             {isSignUp ? t.title.signUp : t.title.signIn}
           </h2>
@@ -281,7 +254,7 @@ const AuthPage = () => {
         </motion.div>
 
         {/* Form */}
-        <motion.div
+        <motion.div 
           className="bg-white rounded-2xl shadow-xl p-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -309,6 +282,7 @@ const AuthPage = () => {
                     <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
                   )}
                 </div>
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     {t.form.industry}
@@ -335,6 +309,7 @@ const AuthPage = () => {
                 </div>
               </>
             )}
+
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 {t.form.email}
@@ -354,6 +329,7 @@ const AuthPage = () => {
                 <p className="mt-1 text-sm text-red-600">{errors.email}</p>
               )}
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 {t.form.password}
@@ -380,6 +356,7 @@ const AuthPage = () => {
                 <p className="mt-1 text-sm text-red-600">{errors.password}</p>
               )}
             </div>
+
             <motion.button
               type="submit"
               disabled={loading}
@@ -397,6 +374,7 @@ const AuthPage = () => {
               )}
             </motion.button>
           </form>
+
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               {isSignUp ? t.form.alreadyAccount : t.form.noAccount}{' '}
@@ -404,12 +382,7 @@ const AuthPage = () => {
                 type="button"
                 onClick={() => {
                   setIsSignUp(!isSignUp);
-                  setFormData({
-                    email: '',
-                    password: '',
-                    fullName: '',
-                    industry: ''
-                  });
+                  setFormData({ email: '', password: '', fullName: '', industry: '' });
                   setErrors({});
                 }}
                 className="text-primary-500 hover:text-primary-600 font-semibold"
@@ -438,16 +411,6 @@ const AuthPage = () => {
           </ul>
         </motion.div>
       </div>
-      
-      {/* Consent Login Modal */}
-      {showConsent && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <ConsentLogin 
-            onAccept={handleConsentAccept} 
-            onDecline={handleConsentDecline} 
-          />
-        </div>
-      )}
     </div>
   );
 };

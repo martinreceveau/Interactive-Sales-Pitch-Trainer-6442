@@ -34,10 +34,9 @@ export const AuthProvider = ({ children }) => {
   const signUp = async (email, password, fullName, industry) => {
     try {
       setLoading(true);
-      
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       const userData = {
         id: Date.now().toString(),
         email,
@@ -49,10 +48,9 @@ export const AuthProvider = ({ children }) => {
         practicesSessions: 0,
         weeklyNewsSuggestions: []
       };
-      
+
       setUser(userData);
       Cookies.set('popsales_user', JSON.stringify(userData), { expires: 30 });
-      
       toast.success('Account created successfully!');
       return { success: true };
     } catch (error) {
@@ -66,10 +64,9 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       setLoading(true);
-      
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       const userData = {
         id: Date.now().toString(),
         email,
@@ -81,10 +78,9 @@ export const AuthProvider = ({ children }) => {
         practicesSessions: 0,
         weeklyNewsSuggestions: []
       };
-      
+
       setUser(userData);
       Cookies.set('popsales_user', JSON.stringify(userData), { expires: 30 });
-      
       toast.success('Welcome back!');
       return { success: true };
     } catch (error) {

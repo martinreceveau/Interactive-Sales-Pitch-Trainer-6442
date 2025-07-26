@@ -75,7 +75,6 @@ const CookieBanner = () => {
                 <p className="text-gray-600 max-w-2xl">{t.message}</p>
               </div>
             </div>
-            
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={handleAcceptAll}

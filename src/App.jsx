@@ -63,29 +63,33 @@ function App() {
   return (
     <LanguageProvider>
       <AuthProvider>
-        <PitchProvider>
-          <Router>
-            <div className="min-h-screen">
-              <Toaster position="top-right" />
-              <CookieBanner />
-              <Routes>
-                <Route path="/" element={<Layout><LandingPage /></Layout>} />
-                <Route path="/about" element={<Layout><AboutPage /></Layout>} />
-                <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
-                <Route path="/careers" element={<Layout><CareersPage /></Layout>} />
-                <Route path="/privacy" element={<Layout><PrivacyPage /></Layout>} />
-                <Route path="/legal" element={<Layout><LegalNoticePage /></Layout>} />
-                <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
-                <Route path="/confidentiality" element={<Layout><ConfidentialityPage /></Layout>} />
-                <Route path="/cookie-policy" element={<Layout><CookiePolicyPage /></Layout>} />
-                <Route path="/terms" element={<Layout><TermsPage /></Layout>} />
-                <Route path="/auth" element={<PublicRoute><Layout><AuthPage /></Layout></PublicRoute>} />
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </div>
-          </Router>
-        </PitchProvider>
+        <Router>
+          <div className="min-h-screen">
+            <Toaster position="top-right" />
+            <CookieBanner />
+            <Routes>
+              <Route path="/" element={<Layout><LandingPage /></Layout>} />
+              <Route path="/about" element={<Layout><AboutPage /></Layout>} />
+              <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
+              <Route path="/careers" element={<Layout><CareersPage /></Layout>} />
+              <Route path="/privacy" element={<Layout><PrivacyPage /></Layout>} />
+              <Route path="/legal" element={<Layout><LegalNoticePage /></Layout>} />
+              <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
+              <Route path="/confidentiality" element={<Layout><ConfidentialityPage /></Layout>} />
+              <Route path="/cookie-policy" element={<Layout><CookiePolicyPage /></Layout>} />
+              <Route path="/terms" element={<Layout><TermsPage /></Layout>} />
+              <Route path="/auth" element={<PublicRoute><Layout><AuthPage /></Layout></PublicRoute>} />
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <PitchProvider>
+                    <Dashboard />
+                  </PitchProvider>
+                </ProtectedRoute>
+              } />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
+        </Router>
       </AuthProvider>
     </LanguageProvider>
   );

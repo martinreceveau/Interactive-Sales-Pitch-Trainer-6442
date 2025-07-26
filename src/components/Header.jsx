@@ -87,7 +87,6 @@ const Header = ({ currentView, setCurrentView }) => {
 
             <div className="flex items-center space-x-2 border-l border-gray-200 pl-4">
               <LanguageSwitcher />
-              
               <motion.button
                 onClick={() => setCurrentView('profile')}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ${
@@ -101,7 +100,6 @@ const Header = ({ currentView, setCurrentView }) => {
                 <SafeIcon icon={FiUser} className="text-lg" />
                 <span className="font-medium hidden sm:inline">{t.profile}</span>
               </motion.button>
-
               <motion.button
                 onClick={handleSignOut}
                 className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
