@@ -1,26 +1,26 @@
-import React, {useState} from 'react';
-import {motion, AnimatePresence} from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import {useLanguage} from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import toast from 'react-hot-toast';
 
-const {FiChevronDown, FiMic, FiTarget, FiBarChart, FiUsers, FiTrendingUp, FiBriefcase, FiUser, FiHeart, FiHome, FiBookOpen, FiScale, FiSend} = FiIcons;
+const { FiChevronDown, FiMic, FiTarget, FiBarChart, FiUsers, FiTrendingUp, FiBriefcase, FiUser, FiHeart, FiHome, FiBookOpen, FiScale, FiSend, FiPlay, FiX } = FiIcons;
 
 const AboutPage = () => {
-  const {language} = useLanguage();
+  const { language } = useLanguage();
   const [selectedPersona, setSelectedPersona] = useState(null);
-  const [contactForm, setContactForm] = useState({
-    useCase: '',
-    email: ''
-  });
+  const [contactForm, setContactForm] = useState({ useCase: '', email: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
   const translations = {
     en: {
       hero: {
         title: "Discover How PopSales Can Help You",
-        subtitle: "Select your situation to see how PopSales can transform your communication"
+        subtitle: "Select your situation to see how PopSales can transform your communication",
+        watchDemo: "Watch Demo",
+        videoTitle: "See PopSales in Action"
       },
       personas: [
         {
@@ -223,7 +223,9 @@ const AboutPage = () => {
     fr: {
       hero: {
         title: "Découvrez Comment PopSales Peut Vous Aider",
-        subtitle: "Sélectionnez votre situation pour voir comment PopSales peut transformer votre communication"
+        subtitle: "Sélectionnez votre situation pour voir comment PopSales peut transformer votre communication",
+        watchDemo: "Voir la Démo",
+        videoTitle: "Découvrez PopSales en Action"
       },
       personas: [
         {
@@ -427,6 +429,9 @@ const AboutPage = () => {
 
   const t = translations[language];
 
+  // Convert Google Drive link to direct video link
+  const videoUrl = "https://drive.google.com/file/d/1CD2jSSAcBlBf-RxWfFU87wLZ0Ne7BhUF/preview";
+
   const getColorClasses = (color) => {
     const colors = {
       blue: 'from-blue-500 to-blue-600',
@@ -454,7 +459,7 @@ const AboutPage = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Contact form submission:', contactForm);
       toast.success(t.contact.successMessage);
-      setContactForm({useCase: '', email: ''});
+      setContactForm({ useCase: '', email: '' });
     } catch (error) {
       toast.error('Error sending message');
     } finally {
@@ -463,32 +468,129 @@ const AboutPage = () => {
   };
 
   const handleContactChange = (e) => {
-    const {name, value} = e.target;
-    setContactForm(prev => ({...prev, [name]: value}));
+    const { name, value } = e.target;
+    setContactForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-50 to-primary-100 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1
-            className="text-5xl font-bold text-gray-800 mb-6"
-            initial={{opacity: 0, y: 20}}
-            animate={{opacity: 1, y: 0}}
-          >
-            {t.hero.title}
-          </motion.h1>
-          <motion.p
-            className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
-            initial={{opacity: 0, y: 20}}
-            animate={{opacity: 1, y: 0}}
-            transition={{delay: 0.2}}
-          >
-            {t.hero.subtitle}
-          </motion.p>
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+            {/* Left Column - Text Content */}
+            <div className="text-center lg:text-left">
+              <motion.h1
+                className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                {t.hero.title}
+              </motion.h1>
+              <motion.p
+                className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                {t.hero.subtitle}
+              </motion.p>
+              
+              <motion.div
+                className="flex justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <button
+                  onClick={() => setShowVideo(true)}
+                  className="bg-primary-500 text-white px-8 py-4 rounded-lg hover:bg-primary-600 transition-colors flex items-center space-x-2 text-lg font-semibold"
+                >
+                  <SafeIcon icon={FiPlay} />
+                  <span>{t.hero.watchDemo}</span>
+                </button>
+              </motion.div>
+            </div>
+
+            {/* Right Column - Video Preview */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className="aspect-video bg-gray-100 flex items-center justify-center relative group cursor-pointer"
+                     onClick={() => setShowVideo(true)}>
+                  {/* Video thumbnail/preview */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-purple-500/20"></div>
+                  
+                  {/* Play button overlay */}
+                  <motion.div
+                    className="relative z-10 bg-white rounded-full p-6 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <SafeIcon icon={FiPlay} className="text-primary-500 text-4xl ml-1" />
+                  </motion.div>
+                  
+                  {/* Video preview text */}
+                  <div className="absolute bottom-4 left-4 right-4 text-center">
+                    <p className="text-white font-semibold text-lg drop-shadow-lg">
+                      {t.hero.videoTitle}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-500 rounded-full opacity-20 blur-xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-purple-500 rounded-full opacity-20 blur-xl"></div>
+            </motion.div>
+          </div>
         </div>
       </section>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {showVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowVideo(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative bg-white rounded-2xl overflow-hidden max-w-4xl w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setShowVideo(false)}
+                className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-colors"
+              >
+                <SafeIcon icon={FiX} className="text-xl" />
+              </button>
+              
+              <div className="aspect-video">
+                <iframe
+                  src={videoUrl}
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allowFullScreen
+                  title="PopSales Demo Video"
+                ></iframe>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Personas Section */}
       <section className="py-20 bg-white">
@@ -498,15 +600,15 @@ const AboutPage = () => {
               <motion.div
                 key={persona.id}
                 className="border border-gray-200 rounded-lg overflow-hidden"
-                initial={{opacity: 0, y: 20}}
-                animate={{opacity: 1, y: 0}}
-                transition={{delay: index * 0.1}}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
                 <motion.button
                   onClick={() => setSelectedPersona(selectedPersona === persona.id ? null : persona.id)}
                   className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-                  whileHover={{scale: 1.01}}
-                  whileTap={{scale: 0.99}}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                 >
                   <div className="flex items-center space-x-4">
                     <div className={`p-3 rounded-lg bg-gradient-to-r ${getColorClasses(persona.color)}`}>
@@ -515,8 +617,8 @@ const AboutPage = () => {
                     <h3 className="text-lg font-semibold text-gray-800">{persona.title}</h3>
                   </div>
                   <motion.div
-                    animate={{rotate: selectedPersona === persona.id ? 180 : 0}}
-                    transition={{duration: 0.2}}
+                    animate={{ rotate: selectedPersona === persona.id ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <SafeIcon icon={FiChevronDown} className="text-gray-400" />
                   </motion.div>
@@ -525,10 +627,10 @@ const AboutPage = () => {
                 <AnimatePresence>
                   {selectedPersona === persona.id && (
                     <motion.div
-                      initial={{height: 0, opacity: 0}}
-                      animate={{height: 'auto', opacity: 1}}
-                      exit={{height: 0, opacity: 0}}
-                      transition={{duration: 0.3}}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-6 bg-gray-50">
@@ -590,18 +692,18 @@ const AboutPage = () => {
             <div className="text-center mb-12">
               <motion.h2
                 className="text-4xl font-bold text-gray-800 mb-4"
-                initial={{opacity: 0, y: 20}}
-                whileInView={{opacity: 1, y: 0}}
-                viewport={{once: true}}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
               >
                 {t.contact.title}
               </motion.h2>
               <motion.p
                 className="text-xl text-gray-600"
-                initial={{opacity: 0, y: 20}}
-                whileInView={{opacity: 1, y: 0}}
-                transition={{delay: 0.2}}
-                viewport={{once: true}}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                viewport={{ once: true }}
               >
                 {t.contact.subtitle}
               </motion.p>
@@ -610,9 +712,9 @@ const AboutPage = () => {
             <motion.form
               onSubmit={handleContactSubmit}
               className="bg-white rounded-2xl p-8 shadow-lg space-y-6"
-              initial={{opacity: 0, y: 20}}
-              whileInView={{opacity: 1, y: 0}}
-              viewport={{once: true}}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
             >
               <div>
                 <textarea
@@ -640,8 +742,8 @@ const AboutPage = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full bg-primary-500 text-white py-3 px-6 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
-                whileHover={{scale: 1.02}}
-                whileTap={{scale: 0.98}}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {isSubmitting ? (
                   <>
@@ -666,23 +768,22 @@ const AboutPage = () => {
           <div className="text-center mb-16">
             <motion.h2
               className="text-4xl font-bold text-gray-800 mb-4"
-              initial={{opacity: 0, y: 20}}
-              whileInView={{opacity: 1, y: 0}}
-              viewport={{once: true}}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
             >
               {t.features.title}
             </motion.h2>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {t.features.items.map((feature, index) => (
               <motion.div
                 key={index}
                 className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow text-center"
-                initial={{opacity: 0, y: 20}}
-                whileInView={{opacity: 1, y: 0}}
-                transition={{duration: 0.5, delay: index * 0.1}}
-                viewport={{once: true}}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
               >
                 <div className="bg-primary-100 p-4 rounded-lg w-fit mx-auto mb-4">
                   <SafeIcon icon={feature.icon} className="text-3xl text-primary-500" />
@@ -700,26 +801,26 @@ const AboutPage = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             className="text-4xl font-bold text-white mb-6"
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
             {language === 'en' ? 'Ready to Transform Your Communication?' : 'Prêt à Transformer Votre Communication ?'}
           </motion.h2>
           <motion.p
             className="text-xl text-primary-100 mb-8"
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            transition={{delay: 0.2}}
-            viewport={{once: true}}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            viewport={{ once: true }}
           >
             {language === 'en' ? 'Start practicing today and see immediate improvements in your presentations' : 'Commencez à pratiquer aujourd\'hui et voyez des améliorations immédiates dans vos présentations'}
           </motion.p>
           <motion.div
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            transition={{delay: 0.4}}
-            viewport={{once: true}}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            viewport={{ once: true }}
           >
             <a
               href="/auth"
