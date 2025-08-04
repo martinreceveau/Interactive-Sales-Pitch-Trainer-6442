@@ -23,23 +23,20 @@ const PricingPage = () => {
           period: 'forever',
           description: 'Perfect for getting started',
           features: [
-            'Up to 5 pitches per month',
+            'Unlimited pitches, for now!',
             'Basic speech analysis',
             'Keyword tracking',
             'English language support',
             'Basic analytics'
           ],
-          limitations: [
-            'Limited to 5 pitches/month',
-            'Basic features only'
-          ],
+          limitations: [],
           cta: 'Get Started Free',
           color: 'gray'
         },
         {
           name: 'Pro',
-          price: '$29',
-          period: 'month',
+          price: 'Coming Soon',
+          period: '',
           description: 'For serious sales professionals',
           features: [
             'Unlimited pitches',
@@ -51,14 +48,15 @@ const PricingPage = () => {
             'Priority support'
           ],
           limitations: [],
-          cta: 'Start Pro Trial',
+          cta: 'Not Available Yet',
           color: 'primary',
-          popular: true
+          popular: true,
+          disabled: true
         },
         {
           name: 'Team',
-          price: '$99',
-          period: 'month',
+          price: 'Coming Soon',
+          period: '',
           description: 'For sales teams and organizations',
           features: [
             'Everything in Pro',
@@ -71,18 +69,19 @@ const PricingPage = () => {
             'Custom integrations'
           ],
           limitations: [],
-          cta: 'Contact Sales',
-          color: 'purple'
+          cta: 'Not Available Yet',
+          color: 'purple',
+          disabled: true
         }
       ],
       faqs: [
         {
           question: 'How does the free plan work?',
-          answer: 'The free plan gives you access to all core features with a limit of 5 pitches per month. Perfect for trying out PopSales and seeing how it can improve your presentations.'
+          answer: 'The free plan gives you access to all core features with unlimited pitches during our beta phase. We\'re collecting feedback to make PopSales even better!'
         },
         {
           question: 'Can I upgrade or downgrade my plan anytime?',
-          answer: 'Yes! You can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.'
+          answer: 'Paid plans are not available yet, but when they launch, you\'ll be able to upgrade or downgrade anytime.'
         },
         {
           question: 'What languages are supported?',
@@ -90,7 +89,7 @@ const PricingPage = () => {
         },
         {
           question: 'Is there a money-back guarantee?',
-          answer: 'Yes! We offer a 30-day money-back guarantee on all paid plans. If you\'re not satisfied, we\'ll refund your money.'
+          answer: 'Yes! We\'ll offer a 30-day money-back guarantee on all paid plans once they launch.'
         },
         {
           question: 'How accurate is the speech analysis?',
@@ -99,9 +98,13 @@ const PricingPage = () => {
       ],
       cta: {
         title: "Ready to Get Started?",
-        subtitle: "Join thousands of sales professionals improving their pitch game with PopSales",
+        subtitle: "Join our beta program and help us build a better product",
         button: "Start Free Trial",
         contactSales: "Contact Sales"
+      },
+      betaNotice: {
+        title: "We're in Beta!",
+        description: "We're currently in beta and offering all features for free while we gather feedback. Paid plans will be available soon."
       }
     },
     fr: {
@@ -116,23 +119,20 @@ const PricingPage = () => {
           period: 'pour toujours',
           description: 'Parfait pour débuter',
           features: [
-            'Jusqu\'à 5 présentations par mois',
+            'Présentations illimitées, pour l\'instant !',
             'Analyse vocale basique',
             'Suivi des mots-clés',
             'Support en anglais',
             'Analyses basiques'
           ],
-          limitations: [
-            'Limité à 5 présentations/mois',
-            'Fonctionnalités basiques uniquement'
-          ],
+          limitations: [],
           cta: 'Démarrer Gratuitement',
           color: 'gray'
         },
         {
           name: 'Pro',
-          price: '29€',
-          period: 'mois',
+          price: 'Bientôt Disponible',
+          period: '',
           description: 'Pour les professionnels de la vente',
           features: [
             'Présentations illimitées',
@@ -144,14 +144,15 @@ const PricingPage = () => {
             'Support prioritaire'
           ],
           limitations: [],
-          cta: 'Essayer Pro',
+          cta: 'Pas Encore Disponible',
           color: 'primary',
-          popular: true
+          popular: true,
+          disabled: true
         },
         {
           name: 'Équipe',
-          price: '99€',
-          period: 'mois',
+          price: 'Bientôt Disponible',
+          period: '',
           description: 'Pour les équipes commerciales',
           features: [
             'Tout ce qui est inclus dans Pro',
@@ -164,18 +165,19 @@ const PricingPage = () => {
             'Intégrations personnalisées'
           ],
           limitations: [],
-          cta: 'Contacter Commercial',
-          color: 'purple'
+          cta: 'Pas Encore Disponible',
+          color: 'purple',
+          disabled: true
         }
       ],
       faqs: [
         {
           question: 'Comment fonctionne le forfait gratuit ?',
-          answer: 'Le forfait gratuit vous donne accès à toutes les fonctionnalités de base avec une limite de 5 présentations par mois. Parfait pour essayer PopSales et voir comment il peut améliorer vos présentations.'
+          answer: 'Le forfait gratuit vous donne accès à toutes les fonctionnalités de base avec des présentations illimitées pendant notre phase bêta. Nous recueillons des commentaires pour améliorer PopSales !'
         },
         {
           question: 'Puis-je passer à un forfait supérieur ou inférieur à tout moment ?',
-          answer: 'Oui ! Vous pouvez passer à un forfait supérieur ou inférieur à tout moment. Les changements seront reflétés dans votre prochain cycle de facturation.'
+          answer: 'Les forfaits payants ne sont pas encore disponibles, mais à leur lancement, vous pourrez passer à un forfait supérieur ou inférieur à tout moment.'
         },
         {
           question: 'Quelles langues sont prises en charge ?',
@@ -183,7 +185,7 @@ const PricingPage = () => {
         },
         {
           question: 'Y a-t-il une garantie de remboursement ?',
-          answer: 'Oui ! Nous offrons une garantie de remboursement de 30 jours sur tous les forfaits payants. Si vous n\'êtes pas satisfait, nous vous rembourserons.'
+          answer: 'Oui ! Nous offrirons une garantie de remboursement de 30 jours sur tous les forfaits payants une fois qu\'ils seront lancés.'
         },
         {
           question: 'Quelle est la précision de l\'analyse vocale ?',
@@ -192,9 +194,13 @@ const PricingPage = () => {
       ],
       cta: {
         title: "Prêt à Commencer ?",
-        subtitle: "Rejoignez des milliers de professionnels de la vente qui améliorent leurs présentations avec PopSales",
+        subtitle: "Rejoignez notre programme bêta et aidez-nous à construire un meilleur produit",
         button: "Essai Gratuit",
         contactSales: "Contacter Commercial"
+      },
+      betaNotice: {
+        title: "Nous sommes en Beta !",
+        description: "Nous sommes actuellement en beta et proposons toutes les fonctionnalités gratuitement pendant que nous recueillons des commentaires. Les forfaits payants seront bientôt disponibles."
       }
     }
   };
@@ -238,6 +244,7 @@ const PricingPage = () => {
           >
             {t.hero.title}
           </motion.h1>
+          
           <motion.p
             className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -246,6 +253,16 @@ const PricingPage = () => {
           >
             {t.hero.subtitle}
           </motion.p>
+
+          <motion.div
+            className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <h2 className="text-xl font-bold text-blue-700 mb-2">{t.betaNotice.title}</h2>
+            <p className="text-blue-600">{t.betaNotice.description}</p>
+          </motion.div>
         </div>
       </section>
 
@@ -256,9 +273,7 @@ const PricingPage = () => {
             {plans.map((plan, index) => (
               <motion.div
                 key={index}
-                className={`relative bg-white rounded-2xl shadow-lg border-2 ${
-                  plan.popular ? 'border-primary-500 shadow-2xl' : 'border-gray-200'
-                } p-8 hover:shadow-xl transition-shadow`}
+                className={`relative bg-white rounded-2xl shadow-lg border-2 ${plan.popular ? 'border-primary-500 shadow-2xl' : 'border-gray-200'} p-8 hover:shadow-xl transition-shadow ${plan.disabled ? 'opacity-60' : ''}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -282,7 +297,7 @@ const PricingPage = () => {
                   <p className="text-gray-600 mb-4">{plan.description}</p>
                   <div className="mb-4">
                     <span className="text-4xl font-bold text-gray-800">{plan.price}</span>
-                    <span className="text-gray-600">/{plan.period}</span>
+                    {plan.period && <span className="text-gray-600">/{plan.period}</span>}
                   </div>
                 </div>
 
@@ -312,18 +327,16 @@ const PricingPage = () => {
 
                 <motion.button
                   className={`w-full py-3 rounded-lg font-semibold transition-colors ${
-                    plan.popular
-                      ? `${getColorClasses(plan.color, 'bg')} text-white ${getColorClasses(
-                          plan.color,
-                          'hover'
-                        )}`
-                      : `border-2 ${getColorClasses(plan.color, 'border')} ${getColorClasses(
-                          plan.color,
-                          'text'
-                        )} hover:bg-gray-50`
+                    plan.disabled 
+                      ? 'bg-gray-300 text-gray-600 cursor-not-allowed' 
+                      : `${plan.popular 
+                          ? `${getColorClasses(plan.color, 'bg')} text-white ${getColorClasses(plan.color, 'hover')}`
+                          : `border-2 ${getColorClasses(plan.color, 'border')} ${getColorClasses(plan.color, 'text')} hover:bg-gray-50`
+                        }`
                   }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={!plan.disabled ? { scale: 1.02 } : {}}
+                  whileTap={!plan.disabled ? { scale: 0.98 } : {}}
+                  disabled={plan.disabled}
                 >
                   {plan.cta}
                 </motion.button>
@@ -355,7 +368,7 @@ const PricingPage = () => {
               {language === 'en' ? 'Everything you need to know about PopSales pricing' : 'Tout ce que vous devez savoir sur les tarifs PopSales'}
             </motion.p>
           </div>
-
+          
           <div className="max-w-3xl mx-auto">
             {t.faqs.map((faq, index) => (
               <motion.div
@@ -408,9 +421,6 @@ const PricingPage = () => {
               <span>{t.cta.button}</span>
               <SafeIcon icon={FiArrowRight} />
             </Link>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-primary-500 transition-colors text-lg font-semibold">
-              {t.cta.contactSales}
-            </button>
           </motion.div>
         </div>
       </section>

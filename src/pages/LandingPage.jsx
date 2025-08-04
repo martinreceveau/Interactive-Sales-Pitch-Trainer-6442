@@ -94,8 +94,10 @@ const LandingPage = () => {
 
   const t = translations[language];
 
-  // Convert Google Drive link to direct video link
+  // Direct link to video (public accessible link)
   const videoUrl = "https://drive.google.com/file/d/1CD2jSSAcBlBf-RxWfFU87wLZ0Ne7BhUF/preview";
+  // Thumbnail image (optional - could be added if you have one)
+  const thumbnailUrl = "https://via.placeholder.com/800x450/e0f2fe/0ea5e9?text=PopSales+Demo";
 
   return (
     <div>
@@ -162,11 +164,15 @@ const LandingPage = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
-                <div className="aspect-video bg-gray-100 flex items-center justify-center relative group cursor-pointer"
-                     onClick={() => setShowVideo(true)}>
-                  {/* Video thumbnail/preview */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-purple-500/20"></div>
-                  
+                <div 
+                  className="aspect-video bg-gray-100 flex items-center justify-center relative group cursor-pointer"
+                  onClick={() => setShowVideo(true)}
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(14, 165, 233, 0.2), rgba(168, 85, 247, 0.2)), url(${thumbnailUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
                   {/* Play button overlay */}
                   <motion.div
                     className="relative z-10 bg-white rounded-full p-6 shadow-lg group-hover:scale-110 transition-transform duration-300"
@@ -224,6 +230,7 @@ const LandingPage = () => {
                   frameBorder="0"
                   allowFullScreen
                   title="PopSales Demo Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 ></iframe>
               </div>
             </motion.div>
