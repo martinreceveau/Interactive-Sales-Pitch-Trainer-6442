@@ -467,10 +467,7 @@ const AboutPage = () => {
 
   const handleContactChange = (e) => {
     const { name, value } = e.target;
-    setContactForm(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setContactForm(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -488,6 +485,7 @@ const AboutPage = () => {
               >
                 {t.hero.title}
               </motion.h1>
+              
               <motion.p
                 className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0"
                 initial={{ opacity: 0, y: 20 }}
@@ -513,7 +511,7 @@ const AboutPage = () => {
               </motion.div>
             </div>
 
-            {/* Right Column - Image */}
+            {/* Right Column - Video */}
             <motion.div
               className="relative"
               initial={{ opacity: 0, x: 20 }}
@@ -521,21 +519,18 @@ const AboutPage = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
-                <div 
-                  className="aspect-video bg-gray-100 flex items-center justify-center relative group"
-                  style={{
-                    backgroundImage: `linear-gradient(rgba(14, 165, 233, 0.2), rgba(168, 85, 247, 0.2))`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
-                  {/* Content overlay */}
-                  <motion.div
-                    className="relative z-10 bg-white/90 p-6 rounded-xl shadow-lg max-w-sm"
-                  >
-                    <h3 className="text-xl font-bold text-primary-600 mb-2">Transform Your Presentations</h3>
-                    <p className="text-gray-700">Our AI-powered coaching helps you deliver more impactful pitches and presentations.</p>
-                  </motion.div>
+                <div className="aspect-video">
+                  <iframe 
+                    width="560" 
+                    height="315" 
+                    src="https://www.youtube.com/embed/OMi4KuKUb1M?si=DGaKbm4_jgQ9AIAG" 
+                    title="YouTube video player" 
+                    frameBorder="0" 
+                    allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" 
+                    referrerPolicy="no-referrer-when-downgrade" 
+                    allowFullScreen 
+                    className="w-full h-full"
+                  ></iframe>
                 </div>
               </div>
               
@@ -615,6 +610,7 @@ const AboutPage = () => {
                                 </li>
                               ))}
                             </ul>
+
                             <h4 className="text-lg font-semibold text-gray-800 mb-3">
                               {language === 'en' ? 'Suggested Keywords:' : 'Mots-clés Suggérés :'}
                             </h4>
@@ -730,6 +726,7 @@ const AboutPage = () => {
               {t.features.title}
             </motion.h2>
           </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {t.features.items.map((feature, index) => (
               <motion.div
