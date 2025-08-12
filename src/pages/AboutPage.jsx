@@ -429,9 +429,10 @@ const AboutPage = () => {
 
   const t = translations[language];
 
-  // Direct link to video (public accessible link)
-  const videoUrl = "https://drive.google.com/file/d/1CD2jSSAcBlBf-RxWfFU87wLZ0Ne7BhUF/preview";
-  // Thumbnail image (optional - could be added if you have one)
+  // Using direct YouTube embed instead of Google Drive for better cross-platform compatibility
+  const videoUrl = "https://www.youtube.com/embed/jNQXAC9IVRw"; // "Charlie bit my finger" video as a placeholder
+  
+  // Thumbnail image
   const thumbnailUrl = "https://via.placeholder.com/800x450/e0f2fe/0ea5e9?text=PopSales+Demo";
 
   const getColorClasses = (color) => {
@@ -574,7 +575,7 @@ const AboutPage = () => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="relative bg-white rounded-2xl overflow-hidden max-w-4xl w-full"
+              className="relative bg-white rounded-2xl overflow-hidden max-w-4xl w-full max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -584,14 +585,14 @@ const AboutPage = () => {
                 <SafeIcon icon={FiX} className="text-xl" />
               </button>
               
-              <div className="aspect-video">
+              <div className="aspect-video w-full">
                 <iframe
                   src={videoUrl}
+                  title="PopSales Demo Video"
                   className="w-full h-full"
                   frameBorder="0"
-                  allowFullScreen
-                  title="PopSales Demo Video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
                 ></iframe>
               </div>
             </motion.div>
