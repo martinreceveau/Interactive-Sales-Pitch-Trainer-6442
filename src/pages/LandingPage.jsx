@@ -1,14 +1,14 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import {motion} from 'framer-motion';
+import {Link} from 'react-router-dom';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { useLanguage } from '../contexts/LanguageContext';
+import {useLanguage} from '../contexts/LanguageContext';
 
-const { FiMic, FiTarget, FiBarChart, FiUsers, FiArrowRight, FiZap } = FiIcons;
+const {FiMic, FiTarget, FiBarChart, FiUsers, FiArrowRight, FiZap} = FiIcons;
 
 const LandingPage = () => {
-  const { language } = useLanguage();
+  const {language} = useLanguage();
 
   const translations = {
     en: {
@@ -103,9 +103,9 @@ const LandingPage = () => {
             <div className="text-center lg:text-left">
               <motion.h1
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.6}}
               >
                 {t.hero.headline.split(' ').map((word, index) => (
                   <span
@@ -119,18 +119,18 @@ const LandingPage = () => {
               
               <motion.p
                 className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.6, delay: 0.2}}
               >
                 {t.hero.subheadline}
               </motion.p>
               
               <motion.div
                 className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                initial={{opacity: 0, y: 20}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.6, delay: 0.4}}
               >
                 <Link
                   to="/auth"
@@ -153,20 +153,23 @@ const LandingPage = () => {
             {/* Right Column - Direct YouTube Embed */}
             <motion.div
               className="relative"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              initial={{opacity: 0, x: 20}}
+              animate={{opacity: 1, x: 0}}
+              transition={{duration: 0.6, delay: 0.3}}
             >
               <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
                 <div className="aspect-video">
                   <iframe 
-                    className="w-full h-full" 
-                    src="https://www.youtube.com/embed/OMi4KuKUb1M" 
-                    title="PopSales Demo Video"
+                    width="560" 
+                    height="315" 
+                    src="https://www.youtube.com/embed/OMi4KuKUb1M?si=DGaKbm4_jgQ9AIAG" 
+                    title="YouTube video player" 
                     frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowFullScreen>
-                  </iframe>
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
                 </div>
               </div>
               
@@ -184,18 +187,18 @@ const LandingPage = () => {
           <div className="text-center mb-16">
             <motion.h2
               className="text-4xl font-bold text-gray-800 mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              initial={{opacity: 0, y: 20}}
+              whileInView={{opacity: 1, y: 0}}
+              viewport={{once: true}}
             >
               {t.features.title}
             </motion.h2>
             <motion.p
               className="text-xl text-gray-600 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              viewport={{ once: true }}
+              initial={{opacity: 0, y: 20}}
+              whileInView={{opacity: 1, y: 0}}
+              transition={{delay: 0.2}}
+              viewport={{once: true}}
             >
               {t.features.subtitle}
             </motion.p>
@@ -206,10 +209,10 @@ const LandingPage = () => {
               <motion.div
                 key={index}
                 className="bg-gray-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                initial={{opacity: 0, y: 20}}
+                whileInView={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: index * 0.1}}
+                viewport={{once: true}}
               >
                 <div className="bg-primary-100 p-3 rounded-lg w-fit mb-4">
                   <SafeIcon
@@ -232,26 +235,26 @@ const LandingPage = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             className="text-4xl font-bold text-white mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true}}
           >
             {t.cta.title}
           </motion.h2>
           <motion.p
             className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            transition={{delay: 0.2}}
+            viewport={{once: true}}
           >
             {t.cta.subtitle}
           </motion.p>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            viewport={{ once: true }}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            transition={{delay: 0.4}}
+            viewport={{once: true}}
           >
             <Link
               to="/auth"

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {motion} from 'framer-motion';
+import {useLocation} from 'react-router-dom';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { useLanguage } from '../contexts/LanguageContext';
+import {useLanguage} from '../contexts/LanguageContext';
 import toast from 'react-hot-toast';
 
-const { FiMail, FiSend, FiCheck } = FiIcons;
+const {FiMail, FiSend, FiCheck} = FiIcons;
 
 const ContactPage = () => {
-  const { language } = useLanguage();
+  const {language} = useLanguage();
   const location = useLocation();
   const [formData, setFormData] = useState({
     name: '',
@@ -25,10 +25,7 @@ const ContactPage = () => {
     const params = new URLSearchParams(location.search);
     const subject = params.get('subject');
     if (subject) {
-      setFormData(prev => ({
-        ...prev,
-        subject
-      }));
+      setFormData(prev => ({...prev, subject}));
     }
   }, [location]);
 
@@ -47,7 +44,7 @@ const ContactPage = () => {
         subject: "Subject",
         subjectPlaceholder: "What is this regarding?",
         message: "Message",
-        messagePlaceholder: "Tell us how we can help you...",
+        messagePlaceholder: "Tell us more about your use case or your need",
         submit: "Send Message",
         submitting: "Sending...",
         required: "This field is required"
@@ -77,7 +74,7 @@ const ContactPage = () => {
         subject: "Sujet",
         subjectPlaceholder: "De quoi s'agit-il?",
         message: "Message",
-        messagePlaceholder: "Dites-nous comment nous pouvons vous aider...",
+        messagePlaceholder: "Parlez-nous davantage de votre cas d'utilisation ou de votre besoin",
         submit: "Envoyer Message",
         submitting: "Envoi...",
         required: "Ce champ est requis"
@@ -98,11 +95,8 @@ const ContactPage = () => {
   const t = translations[language];
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const {name, value} = e.target;
+    setFormData(prev => ({...prev, [name]: value}));
   };
 
   const handleSubmit = async (e) => {
@@ -129,12 +123,7 @@ const ContactPage = () => {
   };
 
   const resetForm = () => {
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    setFormData({name: '', email: '', subject: '', message: ''});
     setSubmitted(false);
   };
 
@@ -145,16 +134,16 @@ const ContactPage = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.h1
             className="text-5xl font-bold text-gray-800 mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
           >
             {t.hero.title}
           </motion.h1>
           <motion.p
             className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            transition={{delay: 0.2}}
           >
             {t.hero.subtitle}
           </motion.p>
@@ -170,8 +159,8 @@ const ContactPage = () => {
               {submitted ? (
                 <motion.div
                   className="bg-white rounded-2xl shadow-lg p-8 text-center"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{opacity: 0, scale: 0.9}}
+                  animate={{opacity: 1, scale: 1}}
                 >
                   <div className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-6">
                     <SafeIcon icon={FiCheck} className="text-green-500 text-3xl" />
@@ -187,8 +176,8 @@ const ContactPage = () => {
                 </motion.div>
               ) : (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{opacity: 0, y: 20}}
+                  animate={{opacity: 1, y: 0}}
                 >
                   <h2 className="text-3xl font-bold text-gray-800 mb-6">{t.form.title}</h2>
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -251,8 +240,8 @@ const ContactPage = () => {
                       type="submit"
                       disabled={isSubmitting}
                       className="w-full bg-primary-500 text-white py-3 px-6 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{scale: 1.02}}
+                      whileTap={{scale: 0.98}}
                     >
                       {isSubmitting ? (
                         <>
@@ -270,12 +259,12 @@ const ContactPage = () => {
                 </motion.div>
               )}
             </div>
-            
+
             {/* Contact Information */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{delay: 0.2}}
             >
               <h2 className="text-3xl font-bold text-gray-800 mb-8">{t.contact.title}</h2>
               <div className="space-y-8">
@@ -286,13 +275,16 @@ const ContactPage = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 mb-1">{t.contact.email}</h3>
                     <p className="text-gray-600">
-                      <a href="mailto:contact@popsales.io" className="hover:text-primary-500 transition-colors">
+                      <a
+                        href="mailto:contact@popsales.io"
+                        className="hover:text-primary-500 transition-colors"
+                      >
                         {t.contact.emailValue}
                       </a>
                     </p>
                   </div>
                 </div>
-                
+
                 {/* Illustration or image placeholder */}
                 <div className="mt-12">
                   <div className="bg-primary-50 rounded-lg p-8 border border-primary-100">
@@ -300,8 +292,8 @@ const ContactPage = () => {
                       {language === 'en' ? 'We\'re Here to Help' : 'Nous Sommes Là pour Vous Aider'}
                     </h3>
                     <p className="text-primary-600 mb-4">
-                      {language === 'en' 
-                        ? 'Our team is ready to answer your questions and help you get the most out of PopSales.' 
+                      {language === 'en'
+                        ? 'Our team is ready to answer your questions and help you get the most out of PopSales.'
                         : 'Notre équipe est prête à répondre à vos questions et à vous aider à tirer le meilleur parti de PopSales.'}
                     </p>
                     <p className="text-primary-600">
