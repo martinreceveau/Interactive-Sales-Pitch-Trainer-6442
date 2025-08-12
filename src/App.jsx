@@ -10,6 +10,8 @@ import Layout from './components/Layout';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import AuthPage from './pages/AuthPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import ConfirmEmailPage from './pages/ConfirmEmailPage';
 import PricingPage from './pages/PricingPage';
 import AboutPage from './pages/AboutPage';
 import CareersPage from './pages/CareersPage';
@@ -24,7 +26,7 @@ import './App.css';
 // Protected route component
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -36,14 +38,14 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  
+
   return user ? children : <Navigate to="/auth" replace />;
 };
 
 // Public route component (redirects to dashboard if logged in)
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -55,7 +57,7 @@ const PublicRoute = ({ children }) => {
       </div>
     );
   }
-  
+
   return !user ? children : <Navigate to="/dashboard" replace />;
 };
 
@@ -78,7 +80,11 @@ function App() {
               <Route path="/confidentiality" element={<Layout><ConfidentialityPage /></Layout>} />
               <Route path="/cookie-policy" element={<Layout><CookiePolicyPage /></Layout>} />
               <Route path="/terms" element={<Layout><TermsPage /></Layout>} />
+              
               <Route path="/auth" element={<PublicRoute><Layout><AuthPage /></Layout></PublicRoute>} />
+              <Route path="/reset-password" element={<PublicRoute><ResetPasswordPage /></PublicRoute>} />
+              <Route path="/confirm" element={<ConfirmEmailPage />} />
+              
               <Route path="/dashboard" element={
                 <ProtectedRoute>
                   <PitchProvider>
@@ -86,6 +92,7 @@ function App() {
                   </PitchProvider>
                 </ProtectedRoute>
               } />
+              
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
