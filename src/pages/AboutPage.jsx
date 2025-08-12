@@ -4,8 +4,9 @@ import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import { useLanguage } from '../contexts/LanguageContext';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
-const { FiChevronDown, FiMic, FiTarget, FiBarChart, FiUsers, FiTrendingUp, FiBriefcase, FiUser, FiHeart, FiHome, FiBookOpen, FiScale, FiSend, FiPlay, FiX } = FiIcons;
+const { FiChevronDown, FiMic, FiTarget, FiBarChart, FiUsers, FiTrendingUp, FiBriefcase, FiUser, FiHeart, FiHome, FiBookOpen, FiScale, FiSend, FiPlay, FiX, FiArrowRight } = FiIcons;
 
 const AboutPage = () => {
   const { language } = useLanguage();
@@ -19,7 +20,7 @@ const AboutPage = () => {
       hero: {
         title: "Discover How PopSales Can Help You",
         subtitle: "Select your situation to see how PopSales can transform your communication",
-        watchDemo: "Watch Demo",
+        requestDemo: "Request Demo",
         videoTitle: "See PopSales in Action"
       },
       personas: [
@@ -224,7 +225,7 @@ const AboutPage = () => {
       hero: {
         title: "Découvrez Comment PopSales Peut Vous Aider",
         subtitle: "Sélectionnez votre situation pour voir comment PopSales peut transformer votre communication",
-        watchDemo: "Voir la Démo",
+        requestDemo: "Demander une Démo",
         videoTitle: "Découvrez PopSales en Action"
       },
       personas: [
@@ -429,12 +430,6 @@ const AboutPage = () => {
 
   const t = translations[language];
 
-  // Using direct YouTube embed with the correct video ID
-  const videoUrl = "https://www.youtube.com/embed/OMi4KuKUb1M";
-  
-  // Thumbnail image
-  const thumbnailUrl = "https://via.placeholder.com/800x450/e0f2fe/0ea5e9?text=PopSales+Demo";
-
   const getColorClasses = (color) => {
     const colors = {
       blue: 'from-blue-500 to-blue-600',
@@ -508,17 +503,17 @@ const AboutPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <button
-                  onClick={() => setShowVideo(true)}
+                <Link
+                  to={`/contact?subject=${encodeURIComponent('Demo for PopSales')}`}
                   className="bg-primary-500 text-white px-8 py-4 rounded-lg hover:bg-primary-600 transition-colors flex items-center space-x-2 text-lg font-semibold"
                 >
-                  <SafeIcon icon={FiPlay} />
-                  <span>{t.hero.watchDemo}</span>
-                </button>
+                  <SafeIcon icon={FiArrowRight} />
+                  <span>{t.hero.requestDemo}</span>
+                </Link>
               </motion.div>
             </div>
 
-            {/* Right Column - Video Preview */}
+            {/* Right Column - Image */}
             <motion.div
               className="relative"
               initial={{ opacity: 0, x: 20 }}
@@ -527,29 +522,20 @@ const AboutPage = () => {
             >
               <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
                 <div 
-                  className="aspect-video bg-gray-100 flex items-center justify-center relative group cursor-pointer"
-                  onClick={() => setShowVideo(true)}
+                  className="aspect-video bg-gray-100 flex items-center justify-center relative group"
                   style={{
-                    backgroundImage: `linear-gradient(rgba(14, 165, 233, 0.2), rgba(168, 85, 247, 0.2)), url(${thumbnailUrl})`,
+                    backgroundImage: `linear-gradient(rgba(14, 165, 233, 0.2), rgba(168, 85, 247, 0.2))`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                   }}
                 >
-                  {/* Play button overlay */}
+                  {/* Content overlay */}
                   <motion.div
-                    className="relative z-10 bg-white rounded-full p-6 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="relative z-10 bg-white/90 p-6 rounded-xl shadow-lg max-w-sm"
                   >
-                    <SafeIcon icon={FiPlay} className="text-primary-500 text-4xl ml-1" />
+                    <h3 className="text-xl font-bold text-primary-600 mb-2">Transform Your Presentations</h3>
+                    <p className="text-gray-700">Our AI-powered coaching helps you deliver more impactful pitches and presentations.</p>
                   </motion.div>
-                  
-                  {/* Video preview text */}
-                  <div className="absolute bottom-4 left-4 right-4 text-center">
-                    <p className="text-white font-semibold text-lg drop-shadow-lg">
-                      {t.hero.videoTitle}
-                    </p>
-                  </div>
                 </div>
               </div>
               
@@ -560,45 +546,6 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
-
-      {/* Video Modal */}
-      <AnimatePresence>
-        {showVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-            onClick={() => setShowVideo(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="relative bg-white rounded-2xl overflow-hidden max-w-4xl w-full max-h-[90vh]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setShowVideo(false)}
-                className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-colors"
-              >
-                <SafeIcon icon={FiX} className="text-xl" />
-              </button>
-              
-              <div className="aspect-video w-full">
-                <iframe
-                  src={videoUrl}
-                  title="PopSales Demo Video"
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Personas Section */}
       <section className="py-20 bg-white">

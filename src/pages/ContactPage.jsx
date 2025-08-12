@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import { useLanguage } from '../contexts/LanguageContext';
 import toast from 'react-hot-toast';
 
-const { FiMail, FiMapPin, FiPhone, FiSend, FiCheck } = FiIcons;
+const { FiMail, FiSend, FiCheck } = FiIcons;
 
 const ContactPage = () => {
   const { language } = useLanguage();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,6 +19,18 @@ const ContactPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Get the subject from URL query parameters if available
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const subject = params.get('subject');
+    if (subject) {
+      setFormData(prev => ({
+        ...prev,
+        subject
+      }));
+    }
+  }, [location]);
 
   const translations = {
     en: {
@@ -41,11 +55,7 @@ const ContactPage = () => {
       contact: {
         title: "Contact Information",
         email: "Email",
-        emailValue: "contact@popsales.io",
-        address: "Address",
-        addressValue: "123 Innovation Street, Tech District, San Francisco, CA 94103",
-        phone: "Phone",
-        phoneValue: "+1 (555) 123-4567"
+        emailValue: "contact@popsales.io"
       },
       success: {
         title: "Message Sent Successfully!",
@@ -75,11 +85,7 @@ const ContactPage = () => {
       contact: {
         title: "Informations de Contact",
         email: "Email",
-        emailValue: "contact@popsales.io",
-        address: "Adresse",
-        addressValue: "123 Rue de l'Innovation, Quartier Tech, Paris, 75001",
-        phone: "Téléphone",
-        phoneValue: "+33 (0)1 23 45 67 89"
+        emailValue: "contact@popsales.io"
       },
       success: {
         title: "Message Envoyé avec Succès!",
@@ -101,21 +107,18 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
       toast.error(t.form.required);
       return;
     }
-    
+
     setIsSubmitting(true);
-    
     // Simulate form submission
     try {
       // In a real application, you would send this data to contact@popsales.io
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Form data:', formData);
-      
       toast.success(language === 'en' ? 'Message sent successfully!' : 'Message envoyé avec succès!');
       setSubmitted(true);
     } catch (error) {
@@ -140,14 +143,14 @@ const ContactPage = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-50 to-primary-100 py-20">
         <div className="container mx-auto px-4 text-center">
-          <motion.h1 
+          <motion.h1
             className="text-5xl font-bold text-gray-800 mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             {t.hero.title}
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -165,7 +168,7 @@ const ContactPage = () => {
             {/* Contact Form */}
             <div>
               {submitted ? (
-                <motion.div 
+                <motion.div
                   className="bg-white rounded-2xl shadow-lg p-8 text-center"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -175,7 +178,7 @@ const ContactPage = () => {
                   </div>
                   <h2 className="text-2xl font-bold text-gray-800 mb-4">{t.success.title}</h2>
                   <p className="text-gray-600 mb-6">{t.success.message}</p>
-                  <button 
+                  <button
                     onClick={resetForm}
                     className="bg-primary-500 text-white px-6 py-3 rounded-lg hover:bg-primary-600 transition-colors"
                   >
@@ -193,7 +196,7 @@ const ContactPage = () => {
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                         {t.form.name}
                       </label>
-                      <input 
+                      <input
                         type="text"
                         name="name"
                         value={formData.name}
@@ -207,7 +210,7 @@ const ContactPage = () => {
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                         {t.form.email}
                       </label>
-                      <input 
+                      <input
                         type="email"
                         name="email"
                         value={formData.email}
@@ -221,7 +224,7 @@ const ContactPage = () => {
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                         {t.form.subject}
                       </label>
-                      <input 
+                      <input
                         type="text"
                         name="subject"
                         value={formData.subject}
@@ -234,7 +237,7 @@ const ContactPage = () => {
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                         {t.form.message}
                       </label>
-                      <textarea 
+                      <textarea
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
@@ -244,8 +247,8 @@ const ContactPage = () => {
                         required
                       />
                     </div>
-                    <motion.button 
-                      type="submit" 
+                    <motion.button
+                      type="submit"
                       disabled={isSubmitting}
                       className="w-full bg-primary-500 text-white py-3 px-6 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
                       whileHover={{ scale: 1.02 }}
@@ -290,34 +293,22 @@ const ContactPage = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-start space-x-4">
-                  <div className="bg-primary-100 p-3 rounded-lg">
-                    <SafeIcon icon={FiMapPin} className="text-primary-500 text-xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t.contact.address}</h3>
-                    <p className="text-gray-600">{t.contact.addressValue}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-4">
-                  <div className="bg-primary-100 p-3 rounded-lg">
-                    <SafeIcon icon={FiPhone} className="text-primary-500 text-xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t.contact.phone}</h3>
-                    <p className="text-gray-600">
-                      <a href={`tel:${t.contact.phoneValue.replace(/\s+/g, '')}`} className="hover:text-primary-500 transition-colors">
-                        {t.contact.phoneValue}
-                      </a>
+                {/* Illustration or image placeholder */}
+                <div className="mt-12">
+                  <div className="bg-primary-50 rounded-lg p-8 border border-primary-100">
+                    <h3 className="text-xl font-bold text-primary-700 mb-4">
+                      {language === 'en' ? 'We\'re Here to Help' : 'Nous Sommes Là pour Vous Aider'}
+                    </h3>
+                    <p className="text-primary-600 mb-4">
+                      {language === 'en' 
+                        ? 'Our team is ready to answer your questions and help you get the most out of PopSales.' 
+                        : 'Notre équipe est prête à répondre à vos questions et à vous aider à tirer le meilleur parti de PopSales.'}
                     </p>
-                  </div>
-                </div>
-                
-                {/* Map Placeholder */}
-                <div className="mt-8">
-                  <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center">
-                    <p className="text-gray-500">Interactive Map Coming Soon</p>
+                    <p className="text-primary-600">
+                      {language === 'en'
+                        ? 'We typically respond within 1-2 business days.'
+                        : 'Nous répondons généralement dans un délai de 1 à 2 jours ouvrables.'}
+                    </p>
                   </div>
                 </div>
               </div>
