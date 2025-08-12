@@ -94,8 +94,8 @@ const LandingPage = () => {
 
   const t = translations[language];
 
-  // Using direct YouTube embed instead of Google Drive for better cross-platform compatibility
-  const videoUrl = "https://www.youtube.com/embed/jNQXAC9IVRw"; // "Charlie bit my finger" video as a placeholder
+  // Using direct YouTube embed with the correct video ID
+  const videoUrl = "https://www.youtube.com/embed/OMi4KuKUb1M";
   
   // Thumbnail image
   const thumbnailUrl = "https://via.placeholder.com/800x450/e0f2fe/0ea5e9?text=PopSales+Demo";
