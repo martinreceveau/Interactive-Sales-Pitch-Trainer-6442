@@ -1,18 +1,19 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import {Link, useLocation} from 'react-router-dom';
+import {motion} from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useAuth } from '../contexts/AuthContext';
+import {useLanguage} from '../contexts/LanguageContext';
+import {useAuth} from '../contexts/AuthContext';
 
-const { FiTrendingUp } = FiIcons;
+const {FiTrendingUp} = FiIcons;
 
-const Layout = ({ children }) => {
+const Layout = ({children}) => {
   const location = useLocation();
-  const { language } = useLanguage();
-  const { user } = useAuth();
+  const {language} = useLanguage();
+  const {user} = useAuth();
+
   const isDashboard = location.pathname === '/dashboard';
 
   const translations = {
@@ -20,7 +21,6 @@ const Layout = ({ children }) => {
       tagline: "Pitch better. Speak like you",
       nav: {
         home: "Home",
-        about: "About",
         features: "Features",
         pricing: "Pricing",
         careers: "Careers",
@@ -33,35 +33,34 @@ const Layout = ({ children }) => {
           product: {
             title: "Product",
             links: [
-              { name: "Pricing", path: "/pricing" },
-              { name: "Features", path: "/about" },
-              { name: "Demo", path: "#" }
+              {name: "Pricing", path: "/pricing"},
+              {name: "Features", path: "/features"},
+              {name: "Demo", path: "#"}
             ]
           },
           company: {
             title: "Company",
             links: [
-              { name: "About", path: "/about" },
-              { name: "Blog", path: "#" },
-              { name: "Careers", path: "/careers" }
+              {name: "Blog", path: "#"},
+              {name: "Careers", path: "/careers"}
             ]
           },
           support: {
             title: "Support",
             links: [
-              { name: "Help Center", path: "#" },
-              { name: "Contact", path: "/contact" },
-              { name: "Privacy", path: "/privacy" }
+              {name: "Help Center", path: "#"},
+              {name: "Contact", path: "/contact"},
+              {name: "Privacy", path: "/privacy"}
             ]
           },
           legal: {
             title: "Legal",
             links: [
-              { name: "Privacy Policy", path: "/privacy" },
-              { name: "Terms of Service", path: "/terms" },
-              { name: "Cookie Policy", path: "/cookie-policy" },
-              { name: "GDPR", path: "/confidentiality" },
-              { name: "Legal Notice", path: "/legal" }
+              {name: "Privacy Policy", path: "/privacy"},
+              {name: "Terms of Service", path: "/terms"},
+              {name: "Cookie Policy", path: "/cookie-policy"},
+              {name: "GDPR", path: "/confidentiality"},
+              {name: "Legal Notice", path: "/legal"}
             ]
           }
         },
@@ -72,7 +71,6 @@ const Layout = ({ children }) => {
       tagline: "Présentez mieux. Parlez comme vous",
       nav: {
         home: "Accueil",
-        about: "À Propos",
         features: "Fonctionnalités",
         pricing: "Tarifs",
         careers: "Carrières",
@@ -85,35 +83,34 @@ const Layout = ({ children }) => {
           product: {
             title: "Produit",
             links: [
-              { name: "Tarifs", path: "/pricing" },
-              { name: "Fonctionnalités", path: "/about" },
-              { name: "Démo", path: "#" }
+              {name: "Tarifs", path: "/pricing"},
+              {name: "Fonctionnalités", path: "/features"},
+              {name: "Démo", path: "#"}
             ]
           },
           company: {
             title: "Entreprise",
             links: [
-              { name: "À Propos", path: "/about" },
-              { name: "Blog", path: "#" },
-              { name: "Carrières", path: "/careers" }
+              {name: "Blog", path: "#"},
+              {name: "Carrières", path: "/careers"}
             ]
           },
           support: {
             title: "Support",
             links: [
-              { name: "Centre d'Aide", path: "#" },
-              { name: "Contact", path: "/contact" },
-              { name: "Confidentialité", path: "/privacy" }
+              {name: "Centre d'Aide", path: "#"},
+              {name: "Contact", path: "/contact"},
+              {name: "Confidentialité", path: "/privacy"}
             ]
           },
           legal: {
             title: "Légal",
             links: [
-              { name: "Politique de Confidentialité", path: "/privacy" },
-              { name: "Conditions d'Utilisation", path: "/terms" },
-              { name: "Politique de Cookies", path: "/cookie-policy" },
-              { name: "RGPD", path: "/confidentiality" },
-              { name: "Mentions Légales", path: "/legal" }
+              {name: "Politique de Confidentialité", path: "/privacy"},
+              {name: "Conditions d'Utilisation", path: "/terms"},
+              {name: "Politique de Cookies", path: "/cookie-policy"},
+              {name: "RGPD", path: "/confidentiality"},
+              {name: "Mentions Légales", path: "/legal"}
             ]
           }
         },
@@ -133,8 +130,8 @@ const Layout = ({ children }) => {
             <div className="flex items-center justify-between">
               <motion.div
                 className="flex items-center space-x-3"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{opacity: 0, x: -20}}
+                animate={{opacity: 1, x: 0}}
               >
                 <Link to="/" className="flex items-center space-x-3">
                   <div className="bg-primary-500 p-2 rounded-lg">
@@ -148,23 +145,41 @@ const Layout = ({ children }) => {
               </motion.div>
 
               <nav className="hidden md:flex items-center space-x-8">
-                <Link to="/" className="text-gray-700 hover:text-primary-600 transition-colors">
+                <Link
+                  to="/"
+                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                >
                   {t.nav.home}
                 </Link>
-                <Link to="/about" className="text-gray-700 hover:text-primary-600 transition-colors">
-                  {t.nav.about}
+                <Link
+                  to="/features"
+                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                >
+                  {t.nav.features}
                 </Link>
-                <Link to="/pricing" className="text-gray-700 hover:text-primary-600 transition-colors">
+                <Link
+                  to="/pricing"
+                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                >
                   {t.nav.pricing}
                 </Link>
-                <Link to="/careers" className="text-gray-700 hover:text-primary-600 transition-colors">
+                <Link
+                  to="/careers"
+                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                >
                   {t.nav.careers}
                 </Link>
-                <Link to="/contact" className="text-gray-700 hover:text-primary-600 transition-colors">
+                <Link
+                  to="/contact"
+                  className="text-gray-700 hover:text-primary-600 transition-colors"
+                >
                   Contact
                 </Link>
                 {!user && (
-                  <Link to="/auth" className="text-gray-700 hover:text-primary-600 transition-colors">
+                  <Link
+                    to="/auth"
+                    className="text-gray-700 hover:text-primary-600 transition-colors"
+                  >
                     {t.nav.signIn}
                   </Link>
                 )}
@@ -214,6 +229,7 @@ const Layout = ({ children }) => {
                 {t.footer.description}
               </p>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-4">{t.footer.sections.product.title}</h4>
               <ul className="space-y-2 text-gray-400">
@@ -226,6 +242,7 @@ const Layout = ({ children }) => {
                 ))}
               </ul>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-4">{t.footer.sections.company.title}</h4>
               <ul className="space-y-2 text-gray-400">
@@ -238,6 +255,7 @@ const Layout = ({ children }) => {
                 ))}
               </ul>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-4">{t.footer.sections.legal.title}</h4>
               <ul className="space-y-2 text-gray-400">
@@ -251,6 +269,7 @@ const Layout = ({ children }) => {
               </ul>
             </div>
           </div>
+
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
             <p>{t.footer.copyright}</p>
           </div>
