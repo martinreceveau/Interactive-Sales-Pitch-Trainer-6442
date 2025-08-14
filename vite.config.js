@@ -19,6 +19,7 @@ export default defineConfig({
           'ui-vendor': ['framer-motion', 'react-icons', 'react-beautiful-dnd'],
         },
       },
+      external: ['@questlabs/react-sdk']
     },
   },
   optimizeDeps: {
@@ -33,5 +34,6 @@ export default defineConfig({
       'react-hot-toast',
       'date-fns'
     ],
+    exclude: ['@questlabs/react-sdk']
   },
 });

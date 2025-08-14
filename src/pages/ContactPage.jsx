@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {motion} from 'framer-motion';
-import {useLocation} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import {useLanguage} from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import toast from 'react-hot-toast';
 
-const {FiMail, FiSend, FiCheck} = FiIcons;
+const { FiMail, FiSend, FiCheck } = FiIcons;
 
 const ContactPage = () => {
-  const {language} = useLanguage();
+  const { language } = useLanguage();
   const location = useLocation();
   const [formData, setFormData] = useState({
     name: '',
@@ -25,7 +25,7 @@ const ContactPage = () => {
     const params = new URLSearchParams(location.search);
     const subject = params.get('subject');
     if (subject) {
-      setFormData(prev => ({...prev, subject}));
+      setFormData(prev => ({ ...prev, subject }));
     }
   }, [location]);
 
@@ -95,12 +95,13 @@ const ContactPage = () => {
   const t = translations[language];
 
   const handleInputChange = (e) => {
-    const {name, value} = e.target;
-    setFormData(prev => ({...prev, [name]: value}));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
       toast.error(t.form.required);
@@ -108,14 +109,26 @@ const ContactPage = () => {
     }
 
     setIsSubmitting(true);
-    // Simulate form submission
+
     try {
-      // In a real application, you would send this data to contact@popsales.io
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Form data:', formData);
+      // Netlify form submission
+      const formElement = e.target;
+      const formData = new FormData(formElement);
+      
+      // Add form-name explicitly for Netlify forms
+      formData.append('form-name', 'contact');
+      
+      // Send the form data to Netlify
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+
       toast.success(language === 'en' ? 'Message sent successfully!' : 'Message envoyé avec succès!');
       setSubmitted(true);
     } catch (error) {
+      console.error('Form submission error:', error);
       toast.error(language === 'en' ? 'Error sending message' : 'Erreur lors de l\'envoi');
     } finally {
       setIsSubmitting(false);
@@ -123,7 +136,12 @@ const ContactPage = () => {
   };
 
   const resetForm = () => {
-    setFormData({name: '', email: '', subject: '', message: ''});
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
     setSubmitted(false);
   };
 
@@ -134,16 +152,16 @@ const ContactPage = () => {
         <div className="container mx-auto px-4 text-center">
           <motion.h1
             className="text-5xl font-bold text-gray-800 mb-6"
-            initial={{opacity: 0, y: 20}}
-            animate={{opacity: 1, y: 0}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
           >
             {t.hero.title}
           </motion.h1>
           <motion.p
             className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
-            initial={{opacity: 0, y: 20}}
-            animate={{opacity: 1, y: 0}}
-            transition={{delay: 0.2}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
           >
             {t.hero.subtitle}
           </motion.p>
@@ -159,8 +177,8 @@ const ContactPage = () => {
               {submitted ? (
                 <motion.div
                   className="bg-white rounded-2xl shadow-lg p-8 text-center"
-                  initial={{opacity: 0, scale: 0.9}}
-                  animate={{opacity: 1, scale: 1}}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
                 >
                   <div className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-6">
                     <SafeIcon icon={FiCheck} className="text-green-500 text-3xl" />
@@ -176,11 +194,30 @@ const ContactPage = () => {
                 </motion.div>
               ) : (
                 <motion.div
-                  initial={{opacity: 0, y: 20}}
-                  animate={{opacity: 1, y: 0}}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                 >
                   <h2 className="text-3xl font-bold text-gray-800 mb-6">{t.form.title}</h2>
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  
+                  {/* Hidden Netlify form for bots/crawlers to find */}
+                  <form name="contact" data-netlify="true" hidden>
+                    <input type="text" name="name" />
+                    <input type="email" name="email" />
+                    <input type="text" name="subject" />
+                    <textarea name="message"></textarea>
+                  </form>
+                  
+                  {/* Actual form that users interact with */}
+                  <form 
+                    onSubmit={handleSubmit} 
+                    className="space-y-6"
+                    name="contact"
+                    method="POST"
+                    data-netlify="true"
+                  >
+                    {/* Required for Netlify form handling */}
+                    <input type="hidden" name="form-name" value="contact" />
+                    
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                         {t.form.name}
@@ -240,8 +277,8 @@ const ContactPage = () => {
                       type="submit"
                       disabled={isSubmitting}
                       className="w-full bg-primary-500 text-white py-3 px-6 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
-                      whileHover={{scale: 1.02}}
-                      whileTap={{scale: 0.98}}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
                       {isSubmitting ? (
                         <>
@@ -262,9 +299,9 @@ const ContactPage = () => {
 
             {/* Contact Information */}
             <motion.div
-              initial={{opacity: 0, y: 20}}
-              animate={{opacity: 1, y: 0}}
-              transition={{delay: 0.2}}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
             >
               <h2 className="text-3xl font-bold text-gray-800 mb-8">{t.contact.title}</h2>
               <div className="space-y-8">

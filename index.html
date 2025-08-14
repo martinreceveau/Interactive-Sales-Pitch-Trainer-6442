@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PopSales - Transform your sales presentations with real-time AI feedback, keyword tracking, and speech analysis." />
-    <meta name="theme-color" content="#0ea5e9" />
-    <title>PopSales - Interactive Sales Pitch Editor</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8" /> 
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> 
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"> 
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" /> 
+  <meta name="description" content="PopSales - Transform your sales presentations with real-time AI feedback,keyword tracking,and speech analysis." /> 
+  <meta name="theme-color" content="#0ea5e9" /> 
+  <title>PopSales - Interactive Sales Pitch Editor</title> 
+</head> 
+<body> 
+  <!-- A little help for the Netlify post-processing bots -->
+  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <input type="text" name="subject" />
+    <textarea name="message"></textarea>
+  </form>
+  <div id="root"></div> 
+  <script type="module" src="/src/main.jsx"></script> 
+</body> 
 </html>

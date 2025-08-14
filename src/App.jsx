@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import CookieBanner from './components/CookieBanner';
+import FeedbackButton from './components/FeedbackButton';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { PitchProvider } from './contexts/PitchContext';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -69,6 +70,10 @@ function App() {
           <div className="min-h-screen">
             <Toaster position="top-right" />
             <CookieBanner />
+            
+            {/* Global Floating Feedback Button */}
+            <FeedbackButton />
+            
             <Routes>
               <Route path="/" element={<Layout><LandingPage /></Layout>} />
               <Route path="/about" element={<Layout><AboutPage /></Layout>} />
@@ -80,19 +85,33 @@ function App() {
               <Route path="/confidentiality" element={<Layout><ConfidentialityPage /></Layout>} />
               <Route path="/cookie-policy" element={<Layout><CookiePolicyPage /></Layout>} />
               <Route path="/terms" element={<Layout><TermsPage /></Layout>} />
-              
-              <Route path="/auth" element={<PublicRoute><Layout><AuthPage /></Layout></PublicRoute>} />
-              <Route path="/reset-password" element={<PublicRoute><ResetPasswordPage /></PublicRoute>} />
+              <Route 
+                path="/auth" 
+                element={
+                  <PublicRoute>
+                    <Layout><AuthPage /></Layout>
+                  </PublicRoute>
+                } 
+              />
+              <Route 
+                path="/reset-password" 
+                element={
+                  <PublicRoute>
+                    <ResetPasswordPage />
+                  </PublicRoute>
+                } 
+              />
               <Route path="/confirm" element={<ConfirmEmailPage />} />
-              
-              <Route path="/dashboard" element={
-                <ProtectedRoute>
-                  <PitchProvider>
-                    <Dashboard />
-                  </PitchProvider>
-                </ProtectedRoute>
-              } />
-              
+              <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <PitchProvider>
+                      <Dashboard />
+                    </PitchProvider>
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

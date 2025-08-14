@@ -102,6 +102,7 @@ const ResetPasswordPage = () => {
       }
     } catch (error) {
       console.error('Password update error:', error);
+      toast.error('Failed to update password. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -113,8 +114,8 @@ const ResetPasswordPage = () => {
         <div className="max-w-md w-full">
           <motion.div
             className="bg-white rounded-2xl shadow-xl p-8 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
           >
             <div className="bg-green-100 p-4 rounded-full w-16 h-16 mx-auto mb-6 flex items-center justify-center">
               <SafeIcon icon={FiCheckCircle} className="text-green-500 text-4xl" />

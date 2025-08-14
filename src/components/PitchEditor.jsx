@@ -6,12 +6,14 @@ import SafeIcon from '../common/SafeIcon';
 import { usePitch } from '../contexts/PitchContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import NewsSuggestions from './NewsSuggestions';
+import PitchImporter from './PitchImporter';
 
-const { FiPlus, FiX, FiSave, FiPlay, FiEdit2, FiGlobe, FiClock, FiMove, FiTrendingUp, FiFlag, FiCheck } = FiIcons;
+const { FiPlus, FiX, FiSave, FiPlay, FiEdit2, FiGlobe, FiClock, FiMove, FiTrendingUp, FiFlag, FiCheck, FiUpload } = FiIcons;
 
 const PitchEditor = ({ setCurrentView }) => {
   const { currentPitch, setCurrentPitch, savePitch } = usePitch();
   const { language } = useLanguage();
+
   const [title, setTitle] = useState(currentPitch?.title || '');
   const [keywords, setKeywords] = useState(currentPitch?.keywords || []);
   const [newKeyword, setNewKeyword] = useState('');
@@ -20,6 +22,7 @@ const PitchEditor = ({ setCurrentView }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(currentPitch?.language || 'en-US');
   const [duration, setDuration] = useState(currentPitch?.duration || 5);
   const [showNewsSuggestions, setShowNewsSuggestions] = useState(false);
+  const [showImporter, setShowImporter] = useState(false);
 
   const translations = {
     en: {
@@ -36,6 +39,7 @@ const PitchEditor = ({ setCurrentView }) => {
       languageLabel: "Speech Recognition Language",
       durationLabel: "Approximate Duration",
       newsIdeas: "News & Ideas",
+      importButton: "Import from File",
       saveSuccess: "Pitch saved successfully!",
       errors: {
         titleRequired: "Title is required",
@@ -56,6 +60,7 @@ const PitchEditor = ({ setCurrentView }) => {
       languageLabel: "Langue de Reconnaissance Vocale",
       durationLabel: "Durée Approximative",
       newsIdeas: "Actualités & Idées",
+      importButton: "Importer depuis un Fichier",
       saveSuccess: "Présentation enregistrée avec succès!",
       errors: {
         titleRequired: "Le titre est requis",
@@ -100,14 +105,14 @@ const PitchEditor = ({ setCurrentView }) => {
   const removeKeyword = (index) => {
     const updatedKeywords = [...keywords];
     const removedKeyword = updatedKeywords.splice(index, 1)[0];
-    
+
     // Also remove from flagged keywords if it exists
     if (flaggedKeywords[removedKeyword]) {
       const updatedFlagged = { ...flaggedKeywords };
       delete updatedFlagged[removedKeyword];
       setFlaggedKeywords(updatedFlagged);
     }
-    
+
     setKeywords(updatedKeywords);
   };
 
@@ -125,11 +130,11 @@ const PitchEditor = ({ setCurrentView }) => {
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
-    
+
     const items = Array.from(keywords);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    
+
     setKeywords(items);
   };
 
@@ -138,12 +143,12 @@ const PitchEditor = ({ setCurrentView }) => {
       alert(t.errors.titleRequired);
       return;
     }
-    
+
     if (keywords.length === 0) {
       alert(t.errors.keywordsRequired);
       return;
     }
-    
+
     const pitchData = {
       ...currentPitch,
       title,
@@ -152,11 +157,10 @@ const PitchEditor = ({ setCurrentView }) => {
       duration,
       flaggedKeywords
     };
-    
+
     setCurrentPitch(pitchData);
     savePitch(pitchData);
     setShowSaveSuccess(true);
-    
     setTimeout(() => {
       setShowSaveSuccess(false);
     }, 3000);
@@ -165,6 +169,27 @@ const PitchEditor = ({ setCurrentView }) => {
   const handlePracticeNow = () => {
     handleSavePitch();
     setCurrentView('practice');
+  };
+
+  const handleImport = (importData) => {
+    if (importData.title) {
+      setTitle(importData.title);
+    }
+    
+    if (importData.keywords && importData.keywords.length > 0) {
+      // Merge existing and new keywords, removing duplicates
+      const combinedKeywords = [...keywords];
+      
+      importData.keywords.forEach(keyword => {
+        if (!combinedKeywords.includes(keyword)) {
+          combinedKeywords.push(keyword);
+        }
+      });
+      
+      setKeywords(combinedKeywords);
+    }
+    
+    setShowImporter(false);
   };
 
   return (
@@ -181,7 +206,16 @@ const PitchEditor = ({ setCurrentView }) => {
             <p className="text-gray-600">{t.subtitle}</p>
           </div>
           <div className="flex items-center space-x-3">
-            {/* Keep only the News Ideas button */}
+            <motion.button
+              onClick={() => setShowImporter(true)}
+              className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors flex items-center space-x-2"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <SafeIcon icon={FiUpload} />
+              <span>{t.importButton}</span>
+            </motion.button>
+            
             <motion.button
               onClick={() => setShowNewsSuggestions(true)}
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"
@@ -191,6 +225,7 @@ const PitchEditor = ({ setCurrentView }) => {
               <SafeIcon icon={FiTrendingUp} />
               <span>{t.newsIdeas}</span>
             </motion.button>
+            
             <SafeIcon icon={FiEdit2} className="text-4xl text-primary-500" />
           </div>
         </div>
@@ -288,9 +323,7 @@ const PitchEditor = ({ setCurrentView }) => {
                           {...provided.dragHandleProps}
                           className={`bg-gray-100 p-4 rounded-lg flex items-center justify-between ${
                             snapshot.isDragging ? 'shadow-lg' : ''
-                          } ${
-                            flaggedKeywords[keyword] ? 'border-l-4 border-red-500' : ''
-                          }`}
+                          } ${flaggedKeywords[keyword] ? 'border-l-4 border-red-500' : ''}`}
                         >
                           <div className="flex items-center space-x-3">
                             <SafeIcon icon={FiMove} className="text-gray-400 cursor-grab" />
@@ -346,6 +379,7 @@ const PitchEditor = ({ setCurrentView }) => {
             <SafeIcon icon={FiSave} />
             <span>{t.saveButton}</span>
           </motion.button>
+
           <motion.button
             onClick={handlePracticeNow}
             className="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center space-x-2"
@@ -358,7 +392,6 @@ const PitchEditor = ({ setCurrentView }) => {
           </motion.button>
         </div>
 
-        {/* Remove showImporter state and PitchImporter modal */}
         <AnimatePresence>
           {showSaveSuccess && (
             <motion.div
@@ -367,10 +400,11 @@ const PitchEditor = ({ setCurrentView }) => {
               exit={{ opacity: 0, y: 50 }}
               className="fixed bottom-4 right-4 bg-success-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2"
             >
-              <SafeIcon icon={FiSave} />
+              <SafeIcon icon={FiCheck} />
               <span>{t.saveSuccess}</span>
             </motion.div>
           )}
+
           {showNewsSuggestions && (
             <NewsSuggestions
               onClose={() => setShowNewsSuggestions(false)}
@@ -379,6 +413,13 @@ const PitchEditor = ({ setCurrentView }) => {
                   setKeywords([...keywords, keyword]);
                 }
               }}
+            />
+          )}
+
+          {showImporter && (
+            <PitchImporter
+              onClose={() => setShowImporter(false)}
+              onImport={handleImport}
             />
           )}
         </AnimatePresence>

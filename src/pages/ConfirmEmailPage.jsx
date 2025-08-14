@@ -3,9 +3,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
-import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import toast from 'react-hot-toast';
 import supabase from '../lib/supabase';
 
 const { FiTrendingUp, FiCheckCircle, FiAlertCircle, FiLoader } = FiIcons;
@@ -53,10 +51,21 @@ const ConfirmEmailPage = () => {
   const t = translations[language];
 
   useEffect(() => {
-    const verifyEmail = async () => {
+    // Check for auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state change:', event);
+      
+      if (event === 'SIGNED_IN') {
+        setStatus('success');
+        setTimeout(() => navigate('/dashboard'), 2000);
+      } else if (event === 'USER_UPDATED') {
+        setStatus('success');
+      }
+    });
+
+    // Check current session status
+    const checkSession = async () => {
       try {
-        // Supabase automatically handles the email verification when the user clicks the link
-        // We just need to check if the user is now authenticated
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
@@ -68,7 +77,15 @@ const ConfirmEmailPage = () => {
         if (session) {
           setStatus('success');
         } else {
-          setStatus('error');
+          // Wait a bit longer in case the auth is still processing
+          setTimeout(async () => {
+            const { data: { session: refreshedSession } } = await supabase.auth.getSession();
+            if (refreshedSession) {
+              setStatus('success');
+            } else {
+              setStatus('error');
+            }
+          }, 2000);
         }
       } catch (error) {
         console.error('Error verifying email:', error);
@@ -76,8 +93,14 @@ const ConfirmEmailPage = () => {
       }
     };
 
-    verifyEmail();
-  }, []);
+    checkSession();
+
+    return () => {
+      if (authListener && authListener.subscription) {
+        authListener.subscription.unsubscribe();
+      }
+    };
+  }, [navigate]);
 
   const getStatusIcon = () => {
     switch (status) {
